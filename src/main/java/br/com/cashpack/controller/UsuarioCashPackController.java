@@ -48,7 +48,7 @@ public class UsuarioCashPackController {
 			}
 
 			if (jsonNode.has("codArea")) {
-				codPais = jsonNode.get("codArea").asText();
+				codArea = jsonNode.get("codArea").asText();
 			}
 
 			if (jsonNode.has("numeroTelefone")) {

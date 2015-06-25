@@ -45,7 +45,12 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 		} catch (Exception e) {
 			usuarioCashPack = new UsuarioCashPack();
 		}
+		if (usuarioCashPack.getStatus() != null
+				&& usuarioCashPack.getStatus() != StatusUsuarioCashPack.DESATIVADO) {
 
+			throw new UsuarioCashPackJaAtivadoException(
+					"Esse usuário já está cadastrado e com o PIN validado!");
+		}
 		this.usuarioCashPackValidator.validate(usuarioCashPack);
 
 		CodigoPIN codigoPin = gerarPinAleatorio();
@@ -53,7 +58,8 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 			usuarioCashPack.setCodigoPin(codigoPin);
 		} else {
 			usuarioCashPack.getCodigoPin().setCodigo(codigoPin.getCodigo());
-			usuarioCashPack.getCodigoPin().setDataQueFoiGerado(codigoPin.getDataQueFoiGerado());
+			usuarioCashPack.getCodigoPin().setDataQueFoiGerado(
+					codigoPin.getDataQueFoiGerado());
 		}
 
 		if (usuarioCashPack.getTelefone() == null) {
