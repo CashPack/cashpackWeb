@@ -1,0 +1,42 @@
+<aspectj>
+<aspects>
+<aspect name="br.com.cashpack.model.UsuarioCashPack_Roo_Configurable"/>
+<aspect name="br.com.cashpack.model.CodigoPIN_Roo_Configurable"/>
+<aspect name="br.com.cashpack.model.Usuario_Roo_Jpa_Entity"/>
+<aspect name="br.com.cashpack.service.UsuarioCashPackServiceImpl_Roo_Service"/>
+<aspect name="br.com.cashpack.model.Usuario_Roo_ToString"/>
+<aspect name="br.com.cashpack.model.Telefone_Roo_Json"/>
+<aspect name="br.com.cashpack.model.SMS_Roo_Jpa_Entity"/>
+<aspect name="br.com.cashpack.service.UsuarioCashPackService_Roo_Service"/>
+<aspect name="br.com.cashpack.model.Usuario_Roo_JavaBean"/>
+<aspect name="br.com.cashpack.model.UsuarioCashPack_Roo_Json"/>
+<aspect name="br.com.cashpack.model.SMS_Roo_ToString"/>
+<aspect name="br.com.cashpack.service.TelefoneServiceImpl_Roo_Service"/>
+<aspect name="br.com.cashpack.model.SMS_Roo_Configurable"/>
+<aspect name="br.com.cashpack.model.Telefone_Roo_Jpa_ActiveRecord"/>
+<aspect name="br.com.cashpack.model.SMS_Roo_Jpa_ActiveRecord"/>
+<aspect name="br.com.cashpack.controller.UsuarioCashPackController_Roo_Controller_Json"/>
+<aspect name="br.com.cashpack.model.UsuarioCashPack_Roo_JavaBean"/>
+<aspect name="br.com.cashpack.service.CodigoPinServiceImpl_Roo_Service"/>
+<aspect name="br.com.cashpack.service.SmsService_Roo_Service"/>
+<aspect name="br.com.cashpack.model.Telefone_Roo_Jpa_Entity"/>
+<aspect name="br.com.cashpack.model.Usuario_Roo_Json"/>
+<aspect name="br.com.cashpack.model.CodigoPIN_Roo_JavaBean"/>
+<aspect name="br.com.cashpack.model.Usuario_Roo_Configurable"/>
+<aspect name="br.com.cashpack.model.UsuarioCashPack_Roo_Jpa_ActiveRecord"/>
+<aspect name="br.com.cashpack.model.Telefone_Roo_JavaBean"/>
+<aspect name="br.com.cashpack.model.UsuarioCashPack_Roo_Jpa_Entity"/>
+<aspect name="br.com.cashpack.service.HotMobileSmsSenderService_Roo_Service"/>
+<aspect name="br.com.cashpack.model.UsuarioCashPack_Roo_ToString"/>
+<aspect name="br.com.cashpack.model.CodigoPIN_Roo_Jpa_ActiveRecord"/>
+<aspect name="br.com.cashpack.model.Telefone_Roo_Configurable"/>
+<aspect name="br.com.cashpack.service.CodigoPinService_Roo_Service"/>
+<aspect name="br.com.cashpack.model.CodigoPIN_Roo_ToString"/>
+<aspect name="br.com.cashpack.model.Usuario_Roo_Jpa_ActiveRecord"/>
+<aspect name="br.com.cashpack.service.TelefoneService_Roo_Service"/>
+<aspect name="br.com.cashpack.model.CodigoPIN_Roo_Json"/>
+<aspect name="br.com.cashpack.model.CodigoPIN_Roo_Jpa_Entity"/>
+<aspect name="br.com.cashpack.model.SMS_Roo_JavaBean"/>
+</aspects>
+</aspectj>
+

@@ -1,0 +1,65 @@
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log opened at 2015-06-16 15:44:46
+project --topLevelPackage br.com.cashpack --projectName cashpack --java 7 --packaging JAR
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log closed at 2015-06-16 15:44:46
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log opened at 2015-06-16 15:44:49
+jpa setup --database MYSQL --provider HIBERNATE 
+entity jpa --class br.com.cashpack.model.Usuario --abstract 
+entity jpa --class br.com.cashpack.model.Telefone
+field string --fieldName codPais --notNull
+field string --fieldName codArea --notNull 
+field string --fieldName numero --notNull --sizeMin 8 --sizeMax 9
+focus --class ~.model.Usuario
+field reference --fieldName telefone --type ~.model.Telefone --cardinality ONE_TO_ONE 
+entity jpa --class ~.model.UsuarioCashPack --extends ~.model.Usuario
+json add
+field string --fieldName cpf --sizeMin 11 --sizeMax 11
+web mvc setup
+controller class --class ~.model.UsuarioCashPack --preferredMapping usuarioCashPack
+entity jpa --class ~.model.UsuarioCashPack --extends ~.model.Usuario
+field string --fieldName cpf --sizeMin 11 --sizeMax 11
+service type --interface ~.service.UsuarioCashPackService
+focus --class ~.model.Usuario 
+entity jpa --class ~.model.CodigoPIN
+field date --type java.util.Date --fieldName dataQueFoiGerado --notNull 
+field string --fieldName codigo --notNull
+focus --class ~.model.UsuarioCashPack
+focus --class ~.model.Usuario
+field reference --fieldName codigoPin --type ~.model.CodigoPIN --cardinality ONE_TO_ONE 
+field reference --fieldName codigoPin --type ~.model.CodigoPIN --cardinality ONE_TO_ONE --notNull 
+focus --class ~.model.UsuarioCashPack
+json add
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log closed at 2015-06-16 23:30:07
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log opened at 2015-06-20 22:47:32
+json all 
+web mvc json all 
+web mvc json all --package br.com.cashpack.controller
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log closed at 2015-06-20 23:24:29
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log opened at 2015-06-20 23:24:35
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log closed at 2015-06-20 23:27:49
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log opened at 2015-06-20 23:27:55
+enum type --class ~.model.StatusUsuarioCashPack
+focus --class ~.model.UsuarioCashPack
+field enum --fieldName status --type ~.model.StatusUsuarioCashPack --notNull true
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log closed at 2015-06-21 01:42:27
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log opened at 2015-06-21 13:09:17
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log closed at 2015-06-21 13:15:19
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log opened at 2015-06-22 10:47:12
+focus --class ~.model.Telefone
+entity jpa --class ~.model.SMS
+field date --fieldName dataDeEnvio --type java.util.Date
+field string --fieldName texto --notNull
+field reference --fieldName usuario --type ~.model.Usuario --notNull 
+focus --class ~.model.Usuario
+field date --fieldName dataEmissaoPin --type java.util.Date
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log closed at 2015-06-22 13:24:21
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log opened at 2015-06-22 16:00:47
+service type --interface ~.service.TelefoneService --entity ~.model.Telefone
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log closed at 2015-06-22 17:39:27
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log opened at 2015-06-22 17:40:39
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log closed at 2015-06-22 17:42:53
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log opened at 2015-06-22 20:45:58
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log closed at 2015-06-22 23:28:09
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log opened at 2015-06-23 17:31:55
+service type --interface ~.service.CodigoPinService --entity ~.model.CodigoPIN
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log closed at 2015-06-23 17:50:37
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log opened at 2015-06-25 13:35:57
