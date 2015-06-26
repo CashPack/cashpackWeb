@@ -30,8 +30,7 @@ public class UsuarioCashPackController {
 			@RequestBody String json) {
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("Content-Type", "application/json");
-		headers.add("charset", "UTF-8");
+		headers.add("Content-Type", "application/json; charset=utf-8");
 
 		JsonNode jsonNode;
 		try {
@@ -76,9 +75,8 @@ public class UsuarioCashPackController {
 			@RequestBody String json) {
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("Content-Type", "application/json");
-		headers.add("charset", "UTF-8");
-
+		headers.add("Content-Type", "application/json; charset=utf-8");
+		
 		JsonNode jsonNode;
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
