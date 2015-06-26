@@ -1,6 +1,5 @@
-package br.com.cashpack.service;
+package br.com.cashpack.exception;
 
-import br.com.cashpack.service.validator.CashPackException;
 
 public class UsuarioCashPackJaAtivadoException extends CashPackException {
 

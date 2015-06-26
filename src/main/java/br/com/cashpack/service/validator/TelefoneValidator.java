@@ -1,5 +1,7 @@
 package br.com.cashpack.service.validator;
 
+import br.com.cashpack.exception.CashPackException;
+import br.com.cashpack.exception.TelefoneException;
 import br.com.cashpack.model.Telefone;
 import br.com.cashpack.service.TelefoneService;
 
@@ -14,8 +16,7 @@ public class TelefoneValidator {
 	private static final int TAM_MIN_NUMERO_TELEFONE = 8;
 	private static final int TAM_MAX_NUMERO_TELEFONE = 9;
 
-	public void validate(Telefone telefone, TelefoneService telefoneService)
-			throws CashPackException {
+	public void validate(Telefone telefone) throws CashPackException {
 
 		validateCodPais(telefone.getCodPais());
 		validateCodArea(telefone.getCodArea());

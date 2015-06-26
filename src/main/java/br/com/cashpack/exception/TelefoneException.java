@@ -1,4 +1,4 @@
-package br.com.cashpack.service.validator;
+package br.com.cashpack.exception;
 
 
 public class TelefoneException extends CashPackException {

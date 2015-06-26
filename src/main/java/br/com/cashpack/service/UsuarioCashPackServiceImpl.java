@@ -5,12 +5,16 @@ import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import br.com.cashpack.exception.CashPackException;
+import br.com.cashpack.exception.CodigoPinDivergenteException;
+import br.com.cashpack.exception.TelefoneException;
+import br.com.cashpack.exception.UsuarioCashPackJaAtivadoException;
+import br.com.cashpack.exception.UsuarioCashPackNaoEncontradoException;
 import br.com.cashpack.model.CodigoPIN;
 import br.com.cashpack.model.StatusUsuarioCashPack;
 import br.com.cashpack.model.Telefone;
 import br.com.cashpack.model.Usuario;
 import br.com.cashpack.model.UsuarioCashPack;
-import br.com.cashpack.service.validator.CashPackException;
 import br.com.cashpack.service.validator.TelefoneValidator;
 import br.com.cashpack.service.validator.UsuarioCashPackValidator;
 
@@ -36,7 +40,7 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 		telefone.setCodPais(codTelefonoPais);
 		telefone.setCodArea(codTelefonoArea);
 		telefone.setNumero(numeroTelefone);
-		this.telefoneValidator.validate(telefone, telefoneService);
+		this.telefoneValidator.validate(telefone);
 
 		UsuarioCashPack usuarioCashPack;
 		try {
@@ -111,5 +115,55 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 		codigoPinService.saveCodigoPIN(pin);
 
 		return pin;
+	}
+
+	@Override
+	public void confirmarPin(String codPais, String codArea, String numero,
+			String confirmacaoDoPin) throws CashPackException {
+
+		Telefone telefone = new Telefone();
+		telefone.setCodPais(codPais);
+		telefone.setCodArea(codArea);
+		telefone.setNumero(numero);
+		this.telefoneValidator.validate(telefone);
+		if (confirmacaoDoPin == null || confirmacaoDoPin.isEmpty()) {
+			new TelefoneException("Código PIN é obrigatório!");
+		}
+
+		UsuarioCashPack usuarioCashPack;
+		try {
+			usuarioCashPack = this.findUsuarioCashPackByTelefone(codPais,
+					codArea, numero);
+		} catch (Exception e) {
+			usuarioCashPack = null;
+		}
+
+		if (usuarioCashPack == null) {
+			throw new UsuarioCashPackNaoEncontradoException(
+					"Usuario CashPack não encontrado!");
+		}
+
+		if (!usuarioCashPack.getStatus().equals(
+				StatusUsuarioCashPack.DESATIVADO)) {
+			throw new UsuarioCashPackJaAtivadoException(
+					"Usuário CashPack já está ativado!");
+		}
+
+		String codigo = "";
+		if (usuarioCashPack.getCodigoPin() != null) {
+			codigo = usuarioCashPack.getCodigoPin().getCodigo();
+		}
+
+		if (!codigo.equals(confirmacaoDoPin)) {
+			throw new CodigoPinDivergenteException("Código PIN não confere!");
+		}
+
+		if (codigo.equals(confirmacaoDoPin)) {
+			usuarioCashPackValidator
+					.validarTempoDeExpiracaoDeUmPin(usuarioCashPack);
+
+			usuarioCashPack.setStatus(StatusUsuarioCashPack.ATIVADO_SEM_CPF);
+			this.saveUsuarioCashPack(usuarioCashPack);
+		}
 	}
 }
