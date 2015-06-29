@@ -66,3 +66,9 @@ service type --interface ~.service.CodigoPinService --entity ~.model.CodigoPIN
 // Spring Roo 1.3.1.RELEASE [rev f4f5256] log closed at 2015-06-25 17:54:42
 // Spring Roo 1.3.1.RELEASE [rev f4f5256] log opened at 2015-06-25 17:55:17
 // Spring Roo 1.3.1.RELEASE [rev f4f5256] log closed at 2015-06-25 23:58:57
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log opened at 2015-06-28 23:54:13
+focus --class ~.model.Usuario
+finder list
+finder list --class ~.model.Usuario
+finder list --class ~.model.Usuario --depth 2
+finder add --class ~.model.Usuario --finderName findUsuariosByCodigoPinAndTelefone
