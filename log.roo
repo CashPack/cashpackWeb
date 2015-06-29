@@ -72,3 +72,16 @@ finder list
 finder list --class ~.model.Usuario
 finder list --class ~.model.Usuario --depth 2
 finder add --class ~.model.Usuario --finderName findUsuariosByCodigoPinAndTelefone
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log closed at 2015-06-29 00:18:53
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log opened at 2015-06-29 00:29:17
+entity jpa --class ~.model.Agencia --extends ~.model.Usuario
+field enum --fieldName statusAgencia --type ~.model.StatusAgencia --notNull 
+entity jpa --class ~.model.RamoDeAtividade --activeRecord true
+field string --fieldName nome --notNull true
+focus --class ~.model.Agencia
+field reference --fieldName ramoDeAtividade --type ~.model.RamoDeAtividade --cardinality MANY_TO_ONE 
+service type --interface ~.service.AgenciaService --entity ~.model.Agencia
+focus --class ~.model.Agencia
+entity jpa --class ~.model.Gerente --activeRecord --extends ~.model.Usuario
+focus --class ~.model.Agencia
+field reference --fieldName gerente --type ~.model.Gerente --cardinality MANY_TO_ONE 
