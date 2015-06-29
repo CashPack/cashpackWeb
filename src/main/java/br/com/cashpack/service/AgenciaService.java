@@ -8,4 +8,6 @@ import br.com.cashpack.model.Agencia;
 public interface AgenciaService {
 
 	void cadastrar(Agencia agencia) throws CashPackException;
+
+	void confirmarPinAgencia(Agencia agencia) throws CashPackException;
 }

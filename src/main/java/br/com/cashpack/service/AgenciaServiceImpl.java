@@ -7,11 +7,15 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.cashpack.exception.CashPackException;
+import br.com.cashpack.exception.CodigoPINJaAtivadoException;
+import br.com.cashpack.exception.CodigoPinDivergenteException;
 import br.com.cashpack.exception.CodigoPinEmitidoRecentementeException;
+import br.com.cashpack.exception.CodigoPinExpiradoException;
 import br.com.cashpack.model.Agencia;
 import br.com.cashpack.model.CodigoPIN;
 import br.com.cashpack.model.RamoDeAtividade;
 import br.com.cashpack.model.StatusAgencia;
+import br.com.cashpack.model.StatusUsuarioCashPack;
 import br.com.cashpack.model.Telefone;
 import br.com.cashpack.model.Usuario;
 import br.com.cashpack.service.validator.TelefoneValidator;
@@ -199,5 +203,61 @@ public class AgenciaServiceImpl implements AgenciaService {
 		// agencia.setGerente(gerente);
 		// }
 		// }
+	}
+
+	@Override
+	public void confirmarPinAgencia(Agencia agencia) throws CashPackException {
+
+		Agencia agenciaPesquisada = null;
+		try {
+			Telefone telefone = agencia.getTelefone();
+			agenciaPesquisada = this.findAgenciaByTelefone(telefone.getCodPais(),
+					telefone.getCodArea(), telefone.getNumero());
+		} catch (Exception e) {
+			throw new AgenciaException(
+					"Não existe agência cadastrada com o telefone informado!");
+		}
+
+		if (!agenciaPesquisada.getStatusAgencia().equals(
+				StatusAgencia.DESATIVADO)) {
+			throw new CodigoPINJaAtivadoException(
+					"Agência já teve o PIN ativado!");
+		}
+
+		if (agenciaPesquisada.getCodigoPin().getCodigo()
+				.equals(agencia.getCodigoPin().getCodigo())) {
+			throw new CodigoPinDivergenteException("Código PIN não confere!");
+		} else {
+			this.validarTempoDeExpiracaoDeUmPin(agenciaPesquisada);
+			agenciaPesquisada.setStatusAgencia(StatusAgencia.PENDENTE);
+			this.saveAgencia(agenciaPesquisada);
+		}
+	}
+
+	private void validarTempoDeExpiracaoDeUmPin(Agencia agenciaPesquisada)
+			throws CodigoPinExpiradoException {
+
+		Date dataQuePinFoiEnviado = agenciaPesquisada.getCodigoPin()
+				.getDataQueFoiGerado();
+		Calendar calendarDoMomentoQueFoiEnviado = Calendar.getInstance();
+		calendarDoMomentoQueFoiEnviado.setTime(dataQuePinFoiEnviado);
+
+		Calendar calendarAtual = Calendar.getInstance();
+
+		int diferencaEntreAno = calendarDoMomentoQueFoiEnviado
+				.get(Calendar.YEAR) - calendarAtual.get(Calendar.YEAR);
+		int diferencaEntreMes = calendarDoMomentoQueFoiEnviado
+				.get(Calendar.MONTH) - calendarAtual.get(Calendar.MONTH);
+		int diferencaEntreDias = calendarDoMomentoQueFoiEnviado
+				.get(Calendar.DAY_OF_MONTH)
+				- calendarAtual.get(Calendar.DAY_OF_MONTH);
+
+		if (diferencaEntreAno != 0 || diferencaEntreMes != 0
+				|| diferencaEntreDias != 0) {
+
+			throw new CodigoPinExpiradoException(
+					"Tempo mínimo para emissão de um novo PIN ainda não foi atingido! Tempo mínimo: 1 dia");
+		}
+
 	}
 }

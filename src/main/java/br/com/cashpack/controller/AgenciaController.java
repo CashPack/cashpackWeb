@@ -33,15 +33,35 @@ public class AgenciaController {
 		Gson gson = new Gson();
 		Agencia agencia = gson.fromJson(json, Agencia.class);
 		try {
-			
 			agenciaService.cadastrar(agencia);
 			return new ResponseEntity<String>(headers, HttpStatus.CREATED);
-		
+
 		} catch (CashPackException e) {
 			e.printStackTrace();
 
 			return new ResponseEntity<String>("{\"ERROR\": \"" + e.getMessage()
 					+ "\"}", headers, HttpStatus.ALREADY_REPORTED);
 		}
+	}
+
+	@RequestMapping(value = "/confirmarPinAgencia", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseEntity<String> confirmarPinAgencia(@RequestBody String json) {
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", "application/json; charset=utf-8");
+
+		Gson gson = new Gson();
+		Agencia agencia = gson.fromJson(json, Agencia.class);
+
+		try {
+			agenciaService.confirmarPinAgencia(agencia);
+			return new ResponseEntity<String>(headers, HttpStatus.CREATED);
+		} catch (CashPackException e) {
+			e.printStackTrace();
+
+			return new ResponseEntity<String>("{\"ERROR\": \"" + e.getMessage()
+					+ "\"}", headers, HttpStatus.ALREADY_REPORTED);
+		}
+
 	}
 }
