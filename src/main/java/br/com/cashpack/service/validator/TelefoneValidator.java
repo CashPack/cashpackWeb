@@ -17,7 +17,9 @@ public class TelefoneValidator {
 	private static final int TAM_MAX_NUMERO_TELEFONE = 9;
 
 	public void validate(Telefone telefone) throws CashPackException {
-
+		if (telefone == null) {
+			throw new TelefoneException("Telefone está null");
+		}
 		validateCodPais(telefone.getCodPais());
 		validateCodArea(telefone.getCodArea());
 		validateNumeroTelefone(telefone.getNumero());
@@ -26,18 +28,18 @@ public class TelefoneValidator {
 	private void validateNumeroTelefone(String numeroTelefone)
 			throws TelefoneException {
 		if (numeroTelefone == null || numeroTelefone.isEmpty()) {
-			throw new TelefoneException("Número do telefone é obrigatório");
+			throw new TelefoneException("Número do telefone é obrigatório!");
 		} else {
 			if (numeroTelefone.length() > TAM_MAX_NUMERO_TELEFONE) {
 				throw new TelefoneException(
 						"O número do telefone deve ter no máximo "
-								+ TAM_MAX_NUMERO_TELEFONE + " dígitos");
+								+ TAM_MAX_NUMERO_TELEFONE + " dígitos!");
 			}
 
 			if (numeroTelefone.length() < TAM_MIN_NUMERO_TELEFONE) {
 				throw new TelefoneException(
 						"O número do telefone deve ter no mínimo "
-								+ TAM_MIN_NUMERO_TELEFONE + " dígitos");
+								+ TAM_MIN_NUMERO_TELEFONE + " dígitos!");
 			}
 		}
 	}
@@ -51,13 +53,13 @@ public class TelefoneValidator {
 			if (codTelefonoArea.length() > TAM_MAX_COD_TELEFONO_AREA) {
 				throw new TelefoneException(
 						"Código de área do telefone deve ter no máximo "
-								+ TAM_MAX_COD_TELEFONO_AREA + " dígitos");
+								+ TAM_MAX_COD_TELEFONO_AREA + " dígitos!");
 			}
 
 			if (codTelefonoArea.length() < TAM_MIN_COD_TELEFONO_AREA) {
 				throw new TelefoneException(
 						"Código do país do telefone deve ter no mínimo "
-								+ TAM_MAX_COD_TELEFONO_AREA + " dígitos");
+								+ TAM_MAX_COD_TELEFONO_AREA + " dígitos!");
 			}
 		}
 	}
@@ -72,13 +74,13 @@ public class TelefoneValidator {
 			if (codTelefonoPais.length() > TAM_MAX_COD_TELEFONO_PAIS) {
 				throw new TelefoneException(
 						"Código do país do telefone deve ter no máximo "
-								+ TAM_MAX_COD_TELEFONO_PAIS + " dígitos");
+								+ TAM_MAX_COD_TELEFONO_PAIS + " dígitos!");
 			}
 
 			if (codTelefonoPais.length() < TAM_MIN_COD_TELEFONO_PAIS) {
 				throw new TelefoneException(
 						"Código do país do telefone deve ter no mínimo "
-								+ TAM_MAX_COD_TELEFONO_PAIS + " dígitos");
+								+ TAM_MAX_COD_TELEFONO_PAIS + " dígitos!");
 			}
 		}
 	}

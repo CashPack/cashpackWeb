@@ -86,7 +86,7 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 				.findUsuarioCashPackByCodPaisAndCodAreaAndNumero(codPais,
 						codArea, numero);
 
-		if (usuario != null && usuario instanceof UsuarioCashPack) {
+		if (usuario != null) {
 			return (UsuarioCashPack) usuario;
 		}
 

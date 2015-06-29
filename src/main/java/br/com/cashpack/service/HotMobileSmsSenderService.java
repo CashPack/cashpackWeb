@@ -11,7 +11,7 @@ import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 
 import br.com.cashpack.model.SMS;
-import br.com.cashpack.model.UsuarioCashPack;
+import br.com.cashpack.model.Usuario;
 
 public class HotMobileSmsSenderService implements SmsService {
 
@@ -32,12 +32,12 @@ public class HotMobileSmsSenderService implements SmsService {
 	}
 
 	@Override
-	public void sendPin(UsuarioCashPack usuarioCashPack) {
+	public void sendPin(Usuario usuario) {
 		SMS sms = new SMS();
 		sms.setDataDeEnvio(new Date());
-		sms.setUsuario(usuarioCashPack);
+		sms.setUsuario(usuario);
 
-		String url = montarURL(usuarioCashPack, sms);
+		String url = montarURL(usuario, sms);
 		String retorno = "";
 		try {
 			HttpClient client = new HttpClient();
@@ -57,18 +57,18 @@ public class HotMobileSmsSenderService implements SmsService {
 		this.saveSMS(sms);
 	}
 
-	private String montarURL(UsuarioCashPack usuarioCashPack, SMS sms) {
+	private String montarURL(Usuario usuario, SMS sms) {
 
 		String urlString = "http://painel.hotmobile.com.br/SendAPI/Send.aspx";
 
 		Properties parameters = new Properties();
 		parameters.setProperty("usr", "cashpack");
 		parameters.setProperty("pwd", "010203");
-		parameters.setProperty("number", usuarioCashPack.getTelefone()
+		parameters.setProperty("number", usuario.getTelefone()
 				.toString());
 
 		String texto = "[CASHPACK] PIN gerado para cadastro: "
-				+ usuarioCashPack.getCodigoPin().getCodigo();
+				+ usuario.getCodigoPin().getCodigo();
 		sms.setTexto(texto);
 
 		parameters.setProperty(

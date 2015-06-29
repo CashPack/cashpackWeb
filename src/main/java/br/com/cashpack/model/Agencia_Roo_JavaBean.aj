@@ -10,12 +10,20 @@ import br.com.cashpack.model.StatusAgencia;
 
 privileged aspect Agencia_Roo_JavaBean {
     
-    public String Agencia.getRazao_social() {
-        return this.razao_social;
+    public String Agencia.getRazaoSocial() {
+        return this.razaoSocial;
     }
     
-    public void Agencia.setRazao_social(String razao_social) {
-        this.razao_social = razao_social;
+    public void Agencia.setRazaoSocial(String razaoSocial) {
+        this.razaoSocial = razaoSocial;
+    }
+    
+    public String Agencia.getNomeFantasia() {
+        return this.nomeFantasia;
+    }
+    
+    public void Agencia.setNomeFantasia(String nomeFantasia) {
+        this.nomeFantasia = nomeFantasia;
     }
     
     public String Agencia.getCnpj() {
