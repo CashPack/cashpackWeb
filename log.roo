@@ -89,3 +89,4 @@ field reference --fieldName gerente --type ~.model.Gerente --cardinality MANY_TO
 // Spring Roo 1.3.1.RELEASE [rev f4f5256] log opened at 2015-06-29 11:44:25
 // Spring Roo 1.3.1.RELEASE [rev f4f5256] log closed at 2015-06-29 15:13:21
 // Spring Roo 1.3.1.RELEASE [rev f4f5256] log opened at 2015-06-29 15:13:38
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log opened at 2015-06-29 16:38:17
