@@ -40,6 +40,8 @@ public class AgenciaServiceImpl implements AgenciaService {
 		Agencia agenciaPesquisadaPorTelefone = null;
 		try {
 			Telefone telefone = agencia.getTelefone();
+			this.telefoneValidator.validate(telefone);
+
 			agenciaPesquisadaPorTelefone = this.findAgenciaByTelefone(
 					telefone.getCodPais(), telefone.getCodArea(),
 					telefone.getNumero());
@@ -78,7 +80,7 @@ public class AgenciaServiceImpl implements AgenciaService {
 
 		agenciaPesquisadaPorTelefone.setStatusAgencia(StatusAgencia.DESATIVADO);
 		this.saveAgencia(agenciaPesquisadaPorTelefone);
-		// this.smsSender.sendPin(agencia);
+		this.smsSender.sendPin(agenciaPesquisadaPorTelefone);
 	}
 
 	private CodigoPIN gerarPinAleatorio() {
@@ -165,6 +167,9 @@ public class AgenciaServiceImpl implements AgenciaService {
 
 		if (agencia.getCnpj() == null || agencia.getCnpj().isEmpty()) {
 			throw new AgenciaException("CNPJ é um campo obrigatório!");
+		} else if (agencia.getCnpj().length() != 14) {
+			throw new AgenciaException(
+					"CNPJ deve ter obrigatoriamente 14 dígitos!");
 		}
 
 		if (agencia.getRazaoSocial() == null
@@ -211,8 +216,9 @@ public class AgenciaServiceImpl implements AgenciaService {
 		Agencia agenciaPesquisada = null;
 		try {
 			Telefone telefone = agencia.getTelefone();
-			agenciaPesquisada = this.findAgenciaByTelefone(telefone.getCodPais(),
-					telefone.getCodArea(), telefone.getNumero());
+			agenciaPesquisada = this.findAgenciaByTelefone(
+					telefone.getCodPais(), telefone.getCodArea(),
+					telefone.getNumero());
 		} catch (Exception e) {
 			throw new AgenciaException(
 					"Não existe agência cadastrada com o telefone informado!");
@@ -224,7 +230,7 @@ public class AgenciaServiceImpl implements AgenciaService {
 					"Agência já teve o PIN ativado!");
 		}
 
-		if (agenciaPesquisada.getCodigoPin().getCodigo()
+		if (!agenciaPesquisada.getCodigoPin().getCodigo()
 				.equals(agencia.getCodigoPin().getCodigo())) {
 			throw new CodigoPinDivergenteException("Código PIN não confere!");
 		} else {
