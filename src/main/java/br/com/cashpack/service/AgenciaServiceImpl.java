@@ -15,7 +15,6 @@ import br.com.cashpack.model.Agencia;
 import br.com.cashpack.model.CodigoPIN;
 import br.com.cashpack.model.RamoDeAtividade;
 import br.com.cashpack.model.StatusAgencia;
-import br.com.cashpack.model.StatusUsuarioCashPack;
 import br.com.cashpack.model.Telefone;
 import br.com.cashpack.model.Usuario;
 import br.com.cashpack.service.validator.TelefoneValidator;
@@ -84,9 +83,9 @@ public class AgenciaServiceImpl implements AgenciaService {
 	}
 
 	private CodigoPIN gerarPinAleatorio() {
-		char[] alfabeto = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
-				'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'v', 'w',
-				'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+		char[] alfabeto = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k',
+				'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y',
+				'z', '2', '3', '4', '5', '6', '7', '8', '9' };
 
 		int qtdCaracteresDoPin = 5;
 		String codigo = "";
@@ -230,8 +229,8 @@ public class AgenciaServiceImpl implements AgenciaService {
 					"Agência já teve o PIN ativado!");
 		}
 
-		if (!agenciaPesquisada.getCodigoPin().getCodigo()
-				.equals(agencia.getCodigoPin().getCodigo())) {
+		if (!agenciaPesquisada.getCodigoPin().getCodigo().toUpperCase()
+				.equals(agencia.getCodigoPin().getCodigo().toUpperCase())) {
 			throw new CodigoPinDivergenteException("Código PIN não confere!");
 		} else {
 			this.validarTempoDeExpiracaoDeUmPin(agenciaPesquisada);

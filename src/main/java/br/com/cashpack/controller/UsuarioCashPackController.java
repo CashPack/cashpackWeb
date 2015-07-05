@@ -44,13 +44,16 @@ public class UsuarioCashPackController {
 			}
 
 			String codArea = "";
-			if (jsonNode.has("codArea")) {
-				codArea = jsonNode.get("codArea").asText();
-			}
-
 			String numero = "";
 			if (jsonNode.has("numeroTelefone")) {
-				numero = jsonNode.get("numeroTelefone").asText();
+				String numeroTelefone = jsonNode.get("numeroTelefone").asText();
+
+				codArea = (String) numeroTelefone.subSequence(0, 3);
+				codArea = codArea.replace("(", "").replace(")", "")
+						.replace(" ", "");
+
+				numero = numeroTelefone.substring(4).replace("(", "")
+						.replace(")", "").replace("-", "").replace(" ", "");
 			}
 
 			try {
@@ -76,7 +79,7 @@ public class UsuarioCashPackController {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json; charset=utf-8");
-		
+
 		JsonNode jsonNode;
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
@@ -89,13 +92,16 @@ public class UsuarioCashPackController {
 			}
 
 			String codArea = "";
-			if (jsonNode.has("codArea")) {
-				codArea = jsonNode.get("codArea").asText();
-			}
-
 			String numero = "";
 			if (jsonNode.has("numeroTelefone")) {
-				numero = jsonNode.get("numeroTelefone").asText();
+				String numeroTelefone = jsonNode.get("numeroTelefone").asText();
+
+				codArea = (String) numeroTelefone.subSequence(0, 3);
+				codArea = codArea.replace("(", "").replace(")", "")
+						.replace(" ", "");
+
+				numero = numeroTelefone.substring(4).replace("(", "")
+						.replace(")", "").replace("-", "").replace(" ", "");
 			}
 
 			String confirmacaoDoPin = "";

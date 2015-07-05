@@ -154,7 +154,7 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 			codigo = usuarioCashPack.getCodigoPin().getCodigo();
 		}
 
-		if (!codigo.equals(confirmacaoDoPin)) {
+		if (!codigo.toUpperCase().equals(confirmacaoDoPin.toUpperCase())) {
 			throw new CodigoPinDivergenteException("Código PIN não confere!");
 		}
 

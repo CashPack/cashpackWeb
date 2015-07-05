@@ -32,6 +32,15 @@ public class AgenciaController {
 
 		Gson gson = new Gson();
 		Agencia agencia = gson.fromJson(json, Agencia.class);
+
+		String numeroTelefone = agencia.getTelefone().getNumero();
+		String  codArea = (String) numeroTelefone.subSequence(0, 3);
+		codArea = codArea.replace("(", "").replace(")", "").replace(" ", "");
+		
+		String numero = "";
+		numero = numeroTelefone.substring(4).replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
+		agencia.getTelefone().setCodArea(codArea);
+		
 		try {
 			agenciaService.cadastrar(agencia);
 			return new ResponseEntity<String>(headers, HttpStatus.CREATED);
