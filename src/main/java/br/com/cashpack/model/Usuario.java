@@ -31,7 +31,7 @@ public abstract class Usuario {
 	@OneToOne
 	private CodigoPIN codigoPin;
 
-	public static Usuario findUsuarioCashPackByCodPaisAndCodAreaAndNumero(
+	public static Usuario findUsuarioByCodPaisAndCodAreaAndNumero(
 			String codPais, String codArea, String numero) {
 		String sqlQuery = "SELECT u From Usuario u WHERE u.telefone.codPais =:codPais AND u.telefone.codArea =:codArea AND u.telefone.numero =:numero";
 

@@ -43,17 +43,21 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 		this.telefoneValidator.validate(telefone);
 
 		UsuarioCashPack usuarioCashPack;
+		Usuario usuario;
 		try {
-			usuarioCashPack = this.findUsuarioCashPackByTelefone(
-					codTelefonoPais, codTelefonoArea, numeroTelefone);
+			usuario = this.findUsuarioByTelefone(codTelefonoPais,
+					codTelefonoArea, numeroTelefone);
+			if (usuario instanceof UsuarioCashPack) {
+				usuarioCashPack = (UsuarioCashPack) usuario;
+			} else {
+				usuarioCashPack = new UsuarioCashPack();
+			}
 		} catch (Exception e) {
 			usuarioCashPack = new UsuarioCashPack();
 		}
-		if (usuarioCashPack.getStatus() != null
-				&& usuarioCashPack.getStatus() != StatusUsuarioCashPack.DESATIVADO) {
 
-			throw new UsuarioCashPackJaAtivadoException(
-					"Esse usuário já está cadastrado e com o PIN validado!");
+		if (usuarioCashPack.getStatus() != null && usuarioCashPack.getStatus() != StatusUsuarioCashPack.DESATIVADO) {
+			throw new UsuarioCashPackJaAtivadoException("Esse usuário já está cadastrado e com o PIN validado!");
 		}
 		this.usuarioCashPackValidator.validate(usuarioCashPack);
 
@@ -62,8 +66,7 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 			usuarioCashPack.setCodigoPin(codigoPin);
 		} else {
 			usuarioCashPack.getCodigoPin().setCodigo(codigoPin.getCodigo());
-			usuarioCashPack.getCodigoPin().setDataQueFoiGerado(
-					codigoPin.getDataQueFoiGerado());
+			usuarioCashPack.getCodigoPin().setDataQueFoiGerado(codigoPin.getDataQueFoiGerado());
 		}
 
 		if (usuarioCashPack.getTelefone() == null) {
@@ -79,18 +82,12 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 
 	}
 
-	private UsuarioCashPack findUsuarioCashPackByTelefone(String codPais,
-			String codArea, String numero) {
+	private Usuario findUsuarioByTelefone(String codPais, String codArea,
+			String numero) {
 
-		Usuario usuario = Usuario
-				.findUsuarioCashPackByCodPaisAndCodAreaAndNumero(codPais,
-						codArea, numero);
+		return Usuario.findUsuarioByCodPaisAndCodAreaAndNumero(codPais,
+				codArea, numero);
 
-		if (usuario != null) {
-			return (UsuarioCashPack) usuario;
-		}
-
-		return null;
 	}
 
 	private CodigoPIN gerarPinAleatorio() {
@@ -130,23 +127,24 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 			new TelefoneException("Código PIN é obrigatório!");
 		}
 
-		UsuarioCashPack usuarioCashPack;
+		UsuarioCashPack usuarioCashPack = null;
+		Usuario usuario;
 		try {
-			usuarioCashPack = this.findUsuarioCashPackByTelefone(codPais,
-					codArea, numero);
+			usuario = this.findUsuarioByTelefone(codPais, codArea, numero);
+			if(usuario instanceof UsuarioCashPack){
+				usuarioCashPack = (UsuarioCashPack) usuario;
+			}
+			
 		} catch (Exception e) {
 			usuarioCashPack = null;
 		}
 
 		if (usuarioCashPack == null) {
-			throw new UsuarioCashPackNaoEncontradoException(
-					"Usuario CashPack não encontrado!");
+			throw new UsuarioCashPackNaoEncontradoException("Usuario CashPack não encontrado!");
 		}
 
-		if (!usuarioCashPack.getStatus().equals(
-				StatusUsuarioCashPack.DESATIVADO)) {
-			throw new UsuarioCashPackJaAtivadoException(
-					"Usuário CashPack já está ativado!");
+		if (!usuarioCashPack.getStatus().equals(StatusUsuarioCashPack.DESATIVADO)) {
+			throw new UsuarioCashPackJaAtivadoException("Usuário CashPack já está ativado!");
 		}
 
 		String codigo = "";
@@ -159,8 +157,7 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 		}
 
 		if (codigo.equals(confirmacaoDoPin)) {
-			usuarioCashPackValidator
-					.validarTempoDeExpiracaoDeUmPin(usuarioCashPack);
+			usuarioCashPackValidator.validarTempoDeExpiracaoDeUmPin(usuarioCashPack);
 
 			usuarioCashPack.setStatus(StatusUsuarioCashPack.ATIVADO_SEM_CPF);
 			this.saveUsuarioCashPack(usuarioCashPack);

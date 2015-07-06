@@ -7,31 +7,32 @@ import br.com.cashpack.model.Agencia;
 import br.com.cashpack.model.Gerente;
 import br.com.cashpack.model.RamoDeAtividade;
 import br.com.cashpack.model.StatusAgencia;
+import br.com.cashpack.model.TipoDeDocumentoDaAgenciaEnum;
 
 privileged aspect Agencia_Roo_JavaBean {
     
-    public String Agencia.getRazaoSocial() {
-        return this.razaoSocial;
+    public String Agencia.getNome() {
+        return this.nome;
     }
     
-    public void Agencia.setRazaoSocial(String razaoSocial) {
-        this.razaoSocial = razaoSocial;
+    public void Agencia.setNome(String nome) {
+        this.nome = nome;
     }
     
-    public String Agencia.getNomeFantasia() {
-        return this.nomeFantasia;
+    public String Agencia.getNumeroDocumento() {
+        return this.numeroDocumento;
     }
     
-    public void Agencia.setNomeFantasia(String nomeFantasia) {
-        this.nomeFantasia = nomeFantasia;
+    public void Agencia.setNumeroDocumento(String numeroDocumento) {
+        this.numeroDocumento = numeroDocumento;
     }
     
-    public String Agencia.getCnpj() {
-        return this.cnpj;
+    public TipoDeDocumentoDaAgenciaEnum Agencia.getTipoDeDocumentoAgenciaEnum() {
+        return this.tipoDeDocumentoAgenciaEnum;
     }
     
-    public void Agencia.setCnpj(String cnpj) {
-        this.cnpj = cnpj;
+    public void Agencia.setTipoDeDocumentoAgenciaEnum(TipoDeDocumentoDaAgenciaEnum tipoDeDocumentoAgenciaEnum) {
+        this.tipoDeDocumentoAgenciaEnum = tipoDeDocumentoAgenciaEnum;
     }
     
     public StatusAgencia Agencia.getStatusAgencia() {

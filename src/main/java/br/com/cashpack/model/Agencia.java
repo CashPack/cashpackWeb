@@ -18,14 +18,15 @@ import org.springframework.roo.addon.tostring.RooToString;
 public class Agencia extends Usuario {
 
 	@NotNull
-	private String razaoSocial;
+	private String nome;
 
 	@NotNull
-	private String nomeFantasia;
-
+	@Size(min = 11, max = 14)
+	private String numeroDocumento;
+	
 	@NotNull
-	@Size(min = 14, max = 14)
-	private String cnpj;
+	@Enumerated(EnumType.STRING)
+	private TipoDeDocumentoDaAgenciaEnum tipoDeDocumentoAgenciaEnum;
 
 	@NotNull
 	@Enumerated(EnumType.STRING)
@@ -39,14 +40,14 @@ public class Agencia extends Usuario {
 	// @NotNull
 	private Gerente gerente;
 
-	public static Agencia findAgenciaByCnpj(String cnpj) {
-		String sql = "SELECT a FROM Agencia a WHERE a.cnpj =:cnpj";
+	public static Agencia findAgenciaByNumeroDocumento(String numeroDocumento) {
+		String sql = "SELECT a FROM Agencia a WHERE a.numeroDocumento =:numeroDocumento";
 
 		EntityManager manager = entityManager();
 
 		TypedQuery<Agencia> query = manager
 				.createQuery(sql, Agencia.class);
-		query.setParameter("cnpj", cnpj);
+		query.setParameter("numeroDocumento", numeroDocumento);
 
 		return query.getSingleResult();
 	}

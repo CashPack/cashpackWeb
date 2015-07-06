@@ -21,26 +21,32 @@ import com.google.gson.Gson;
 @RequestMapping("/agencia")
 public class AgenciaController {
 
+	private HttpHeaders headers;
+	
 	@Autowired
 	private AgenciaService agenciaService;
+	
+	private void init() {
+		this.headers = new HttpHeaders();
+		headers.add("Content-Type", "application/json; charset=utf-8");
+		
+	}
 
 	@RequestMapping(value = "/cadastrarAgencia", method = RequestMethod.POST, headers = "Accept=application/json")
 	public ResponseEntity<String> cadastrarAgencia(@RequestBody String json) {
-
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Content-Type", "application/json; charset=utf-8");
+		init();
 
 		Gson gson = new Gson();
 		Agencia agencia = gson.fromJson(json, Agencia.class);
 
 		String numeroTelefone = agencia.getTelefone().getNumero();
-		String  codArea = (String) numeroTelefone.subSequence(0, 3);
+		String codArea = (String) numeroTelefone.subSequence(0, 3);
 		codArea = codArea.replace("(", "").replace(")", "").replace(" ", "");
-		
+
 		String numero = "";
 		numero = numeroTelefone.substring(4).replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
 		agencia.getTelefone().setCodArea(codArea);
-		
+
 		try {
 			agenciaService.cadastrar(agencia);
 			return new ResponseEntity<String>(headers, HttpStatus.CREATED);
@@ -55,10 +61,8 @@ public class AgenciaController {
 
 	@RequestMapping(value = "/confirmarPinAgencia", method = RequestMethod.POST, headers = "Accept=application/json")
 	public ResponseEntity<String> confirmarPinAgencia(@RequestBody String json) {
-
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Content-Type", "application/json; charset=utf-8");
-
+		init();
+		
 		Gson gson = new Gson();
 		Agencia agencia = gson.fromJson(json, Agencia.class);
 
