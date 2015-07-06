@@ -27,6 +27,14 @@ privileged aspect Agencia_Roo_JavaBean {
         this.razaoSocial = razaoSocial;
     }
     
+    public String Agencia.getEmail() {
+        return this.email;
+    }
+    
+    public void Agencia.setEmail(String email) {
+        this.email = email;
+    }
+    
     public String Agencia.getNumeroDocumento() {
         return this.numeroDocumento;
     }

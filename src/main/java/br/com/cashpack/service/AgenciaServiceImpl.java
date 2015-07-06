@@ -42,9 +42,7 @@ public class AgenciaServiceImpl implements AgenciaService {
 		try {
 			Telefone telefone = agencia.getTelefone();
 			this.telefoneValidator.validate(telefone);
-			usuarioComMesmoTelefone = this.findUsuarioByTelefone(
-					telefone.getCodPais(), telefone.getCodArea(),
-					telefone.getNumero());
+			usuarioComMesmoTelefone = this.findUsuarioByTelefone(telefone.getCodPais(), telefone.getCodArea(), telefone.getNumero());
 
 		} catch (Exception e) {
 			agenciaPesquisadaPorTelefone = agencia;
@@ -61,22 +59,17 @@ public class AgenciaServiceImpl implements AgenciaService {
 
 		if (agenciaPesquisadaPorTelefone != null
 				&& agenciaPesquisadaPorTelefone.getId() != null) {
-			if (agenciaPesquisadaPorTelefone.getStatusAgencia().equals(
-					StatusAgencia.ATIVADO)) {
-				throw new AgenciaException(
-						"Agência já está cadastrada e devidamente ativada para usar o sistema!");
+			if (agenciaPesquisadaPorTelefone.getStatusAgencia().equals(StatusAgencia.ATIVADO)) {
+				throw new AgenciaException("Agência já está cadastrada e devidamente ativada para usar o sistema!");
 			}
 
-			else if (agenciaPesquisadaPorTelefone.getStatusAgencia().equals(
-					StatusAgencia.PENDENTE)) {
-				throw new AgenciaException(
-						"Agência já está cadastrada mas aguardando pagamento. Por favor, realize o pagamento da taxa para concluir o cadastro!");
+			else if (agenciaPesquisadaPorTelefone.getStatusAgencia().equals(StatusAgencia.PENDENTE)) {
+				throw new AgenciaException("Agência já está cadastrada mas aguardando pagamento. Por favor, realize o pagamento da taxa para concluir o cadastro!");
 			}
 		}
 
-		this.telefoneService.saveTelefone(agenciaPesquisadaPorTelefone
-				.getTelefone());
-
+		this.telefoneService.saveTelefone(agenciaPesquisadaPorTelefone.getTelefone());
+		
 		CodigoPIN codigoPin = gerarPinAleatorio();
 		agenciaPesquisadaPorTelefone.setCodigoPin(codigoPin);
 

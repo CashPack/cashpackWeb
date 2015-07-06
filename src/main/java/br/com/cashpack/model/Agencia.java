@@ -22,6 +22,9 @@ public class Agencia extends Usuario {
 
 	@NotNull
 	private String razaoSocial;
+	
+	@NotNull
+	private String email;
 
 	@NotNull
 	@Size(min = 11, max = 14)

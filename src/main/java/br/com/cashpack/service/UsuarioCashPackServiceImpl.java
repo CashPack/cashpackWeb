@@ -56,8 +56,10 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 			usuarioCashPack = new UsuarioCashPack();
 		}
 
-		if (usuarioCashPack.getStatus() != null && usuarioCashPack.getStatus() != StatusUsuarioCashPack.DESATIVADO) {
-			throw new UsuarioCashPackJaAtivadoException("Esse usuário já está cadastrado e com o PIN validado!");
+		if (usuarioCashPack.getStatus() != null
+				&& usuarioCashPack.getStatus() != StatusUsuarioCashPack.DESATIVADO) {
+			throw new UsuarioCashPackJaAtivadoException(
+					"Esse usuário já está cadastrado e com o PIN validado!");
 		}
 		this.usuarioCashPackValidator.validate(usuarioCashPack);
 
@@ -66,7 +68,8 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 			usuarioCashPack.setCodigoPin(codigoPin);
 		} else {
 			usuarioCashPack.getCodigoPin().setCodigo(codigoPin.getCodigo());
-			usuarioCashPack.getCodigoPin().setDataQueFoiGerado(codigoPin.getDataQueFoiGerado());
+			usuarioCashPack.getCodigoPin().setDataQueFoiGerado(
+					codigoPin.getDataQueFoiGerado());
 		}
 
 		if (usuarioCashPack.getTelefone() == null) {
@@ -91,9 +94,9 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 	}
 
 	private CodigoPIN gerarPinAleatorio() {
-		char[] alfabeto = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
-				'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'v', 'w',
-				'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+		char[] alfabeto = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K',
+				'L', 'M', 'N', 'P', 'Q', 'R', 'T', 'V', 'W', 'X', 'Y', 'Z',
+				'2', '3', '4', '6', '7', '8', '9' };
 
 		int qtdCaracteresDoPin = 5;
 		String codigo = "";
@@ -131,20 +134,23 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 		Usuario usuario;
 		try {
 			usuario = this.findUsuarioByTelefone(codPais, codArea, numero);
-			if(usuario instanceof UsuarioCashPack){
+			if (usuario instanceof UsuarioCashPack) {
 				usuarioCashPack = (UsuarioCashPack) usuario;
 			}
-			
+
 		} catch (Exception e) {
 			usuarioCashPack = null;
 		}
 
 		if (usuarioCashPack == null) {
-			throw new UsuarioCashPackNaoEncontradoException("Usuario CashPack não encontrado!");
+			throw new UsuarioCashPackNaoEncontradoException(
+					"Usuario CashPack não encontrado!");
 		}
 
-		if (!usuarioCashPack.getStatus().equals(StatusUsuarioCashPack.DESATIVADO)) {
-			throw new UsuarioCashPackJaAtivadoException("Usuário CashPack já está ativado!");
+		if (!usuarioCashPack.getStatus().equals(
+				StatusUsuarioCashPack.DESATIVADO)) {
+			throw new UsuarioCashPackJaAtivadoException(
+					"Usuário CashPack já está ativado!");
 		}
 
 		String codigo = "";
@@ -157,7 +163,8 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 		}
 
 		if (codigo.equals(confirmacaoDoPin)) {
-			usuarioCashPackValidator.validarTempoDeExpiracaoDeUmPin(usuarioCashPack);
+			usuarioCashPackValidator
+					.validarTempoDeExpiracaoDeUmPin(usuarioCashPack);
 
 			usuarioCashPack.setStatus(StatusUsuarioCashPack.ATIVADO_SEM_CPF);
 			this.saveUsuarioCashPack(usuarioCashPack);
