@@ -11,12 +11,20 @@ import br.com.cashpack.model.TipoDeDocumentoDaAgenciaEnum;
 
 privileged aspect Agencia_Roo_JavaBean {
     
-    public String Agencia.getNome() {
-        return this.nome;
+    public String Agencia.getNomeFantasia() {
+        return this.nomeFantasia;
     }
     
-    public void Agencia.setNome(String nome) {
-        this.nome = nome;
+    public void Agencia.setNomeFantasia(String nomeFantasia) {
+        this.nomeFantasia = nomeFantasia;
+    }
+    
+    public String Agencia.getRazaoSocial() {
+        return this.razaoSocial;
+    }
+    
+    public void Agencia.setRazaoSocial(String razaoSocial) {
+        this.razaoSocial = razaoSocial;
     }
     
     public String Agencia.getNumeroDocumento() {

@@ -62,7 +62,7 @@ public class AgenciaServiceImpl implements AgenciaService {
 			}
 
 			else if (agenciaPesquisadaPorTelefone.getStatusAgencia().equals(StatusAgencia.PENDENTE)) {
-				throw new AgenciaException("Agencia já está cadastrada mas aguardando pagamento. Por favor, realize o pagamento da taxa para concluir o cadastro!");
+				throw new AgenciaException("Agência já está cadastrada mas aguardando pagamento. Por favor, realize o pagamento da taxa para concluir o cadastro!");
 			}
 		}
 
@@ -157,12 +157,12 @@ public class AgenciaServiceImpl implements AgenciaService {
 			throw new AgenciaException("CPF deve ter obrigatoriamente 11 dígitos!");
 		} 
 		
-		else if (agencia.getTipoDeDocumentoAgenciaEnum().equals(TipoDeDocumentoDaAgenciaEnum.CPF) && agencia.getNumeroDocumento().length() != 14) {
+		else if (agencia.getTipoDeDocumentoAgenciaEnum().equals(TipoDeDocumentoDaAgenciaEnum.CNPJ) && agencia.getNumeroDocumento().length() != 14) {
 			throw new AgenciaException("CPF deve ter obrigatoriamente 14 dígitos!");
 		}
 
-		if (agencia.getNome() == null || agencia.getNome().isEmpty()) {
-			throw new AgenciaException("Nome é um campo obrigatório!");
+		if (agencia.getNomeFantasia() == null || agencia.getNomeFantasia().isEmpty()) {
+			throw new AgenciaException("Nome Fantasia é um campo obrigatório!");
 		}
 
 		if (agencia.getRamoDeAtividade() == null || agencia.getRamoDeAtividade().getId() == null) {
