@@ -42,9 +42,11 @@ public class AgenciaController {
 		String codArea = (String) numeroTelefone.subSequence(0, 3);
 		codArea = codArea.replace("(", "").replace(")", "").replace(" ", "");
 
-		String numero = numeroTelefone.substring(4).replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
+		String numero = numeroTelefone.substring(4).replace("(", "")
+				.replace(")", "").replace("-", "").replace(" ", "");
 		agencia.getTelefone().setCodArea(codArea);
 		agencia.getTelefone().setNumero(numero);
+
 		try {
 			agenciaService.cadastrar(agencia);
 			return new ResponseEntity<String>(headers, HttpStatus.CREATED);
@@ -63,6 +65,14 @@ public class AgenciaController {
 
 		Gson gson = new Gson();
 		Agencia agencia = gson.fromJson(json, Agencia.class);
+		String numeroTelefone = agencia.getTelefone().getNumero();
+		String codArea = (String) numeroTelefone.subSequence(0, 3);
+		codArea = codArea.replace("(", "").replace(")", "").replace(" ", "");
+
+		String numero = numeroTelefone.substring(4).replace("(", "")
+				.replace(")", "").replace("-", "").replace(" ", "");
+		agencia.getTelefone().setCodArea(codArea);
+		agencia.getTelefone().setNumero(numero);
 
 		try {
 			agenciaService.confirmarPinAgencia(agencia);

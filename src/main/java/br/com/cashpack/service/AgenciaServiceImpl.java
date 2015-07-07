@@ -1,8 +1,5 @@
 package br.com.cashpack.service;
 
-import java.util.Date;
-import java.util.Random;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.cashpack.exception.CashPackException;
@@ -40,7 +37,9 @@ public class AgenciaServiceImpl implements AgenciaService {
 		try {
 			Telefone telefone = agencia.getTelefone();
 			this.telefoneValidator.validate(telefone);
-			usuarioComMesmoTelefone = this.findUsuarioByTelefone(telefone.getCodPais(), telefone.getCodArea(), telefone.getNumero());
+			usuarioComMesmoTelefone = this.findUsuarioByTelefone(
+					telefone.getCodPais(), telefone.getCodArea(),
+					telefone.getNumero());
 
 		} catch (Exception e) {
 			agenciaPesquisadaPorTelefone = agencia;
@@ -57,47 +56,27 @@ public class AgenciaServiceImpl implements AgenciaService {
 
 		if (agenciaPesquisadaPorTelefone != null
 				&& agenciaPesquisadaPorTelefone.getId() != null) {
-			if (agenciaPesquisadaPorTelefone.getStatusAgencia().equals(StatusAgencia.ATIVADO)) {
-				throw new AgenciaException("Agência já está cadastrada e devidamente ativada para usar o sistema!");
+			if (agenciaPesquisadaPorTelefone.getStatusAgencia().equals(
+					StatusAgencia.ATIVADO)) {
+				throw new AgenciaException(
+						"Agência já está cadastrada e devidamente ativada para usar o sistema!");
 			}
 
-			else if (agenciaPesquisadaPorTelefone.getStatusAgencia().equals(StatusAgencia.PENDENTE)) {
-				throw new AgenciaException("Agência já está cadastrada mas aguardando pagamento. Por favor, realize o pagamento da taxa para concluir o cadastro!");
+			else if (agenciaPesquisadaPorTelefone.getStatusAgencia().equals(
+					StatusAgencia.PENDENTE)) {
+				throw new AgenciaException(
+						"Agência já está cadastrada mas aguardando pagamento. Por favor, realize o pagamento da taxa para concluir o cadastro!");
 			}
 		}
 
-		this.telefoneService.saveTelefone(agenciaPesquisadaPorTelefone.getTelefone());
-		
-		CodigoPIN codigoPin = gerarPinAleatorio();
+		this.telefoneService.saveTelefone(agenciaPesquisadaPorTelefone
+				.getTelefone());
+		CodigoPIN codigoPin = this.codigoPinService.gerarPinAleatorio();
 		agenciaPesquisadaPorTelefone.setCodigoPin(codigoPin);
 
 		agenciaPesquisadaPorTelefone.setStatusAgencia(StatusAgencia.DESATIVADO);
 		this.saveAgencia(agenciaPesquisadaPorTelefone);
 		this.smsSender.sendPin(agenciaPesquisadaPorTelefone);
-	}
-
-	private CodigoPIN gerarPinAleatorio() {
-		char[] alfabeto = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K',
-				'L', 'M', 'N', 'P', 'Q', 'R', 'T', 'V', 'W', 'X', 'Y', 'Z',
-				'2', '3', '4', '6', '7', '8', '9' };
-
-		int qtdCaracteresDoPin = 5;
-		String codigo = "";
-		for (int i = 0; i < qtdCaracteresDoPin; i++) {
-			Random gerador = new Random();
-			int numero = gerador.nextInt(alfabeto.length - 1);
-
-			if (numero < 0) {
-				numero = 0;
-			}
-			codigo += alfabeto[numero];
-		}
-		CodigoPIN pin = new CodigoPIN();
-		pin.setCodigo(codigo);
-		pin.setDataQueFoiGerado(new Date());
-		codigoPinService.saveCodigoPIN(pin);
-
-		return pin;
 	}
 
 	private Usuario findUsuarioByTelefone(String codPais, String codArea,
@@ -114,6 +93,11 @@ public class AgenciaServiceImpl implements AgenciaService {
 		}
 		telefoneValidator.validate(agencia.getTelefone());
 
+		if (agencia.getEmail() == null || agencia.getEmail().isEmpty()) {
+			throw new AgenciaException(
+					"E-mail da agência é um campo obrigatório!");
+		}
+
 		if (agencia.getTipoDeDocumentoAgenciaEnum() == null) {
 			throw new AgenciaException(
 					"Tipo de documento da agência é um campo obrigatório!");
@@ -123,20 +107,33 @@ public class AgenciaServiceImpl implements AgenciaService {
 				|| agencia.getNumeroDocumento().isEmpty()) {
 			throw new AgenciaException(agencia.getTipoDeDocumentoAgenciaEnum()
 					+ " é um campo obrigatório!");
+		} else {
+			agencia.setNumeroDocumento(agencia.getNumeroDocumento()
+					.replace(".", "").replace("-", "").replace("/", "")
+					.replace(" ", ""));
+
+			if (agencia.getTipoDeDocumentoAgenciaEnum().equals(
+					TipoDeDocumentoDaAgenciaEnum.CPF)
+					&& agencia.getNumeroDocumento().length() != 11) {
+				throw new AgenciaException(
+						"CPF deve ter obrigatoriamente 11 dígitos!");
+			} else if (agencia.getTipoDeDocumentoAgenciaEnum().equals(
+					TipoDeDocumentoDaAgenciaEnum.CNPJ)
+					&& agencia.getNumeroDocumento().length() != 14) {
+				throw new AgenciaException(
+						"CPF deve ter obrigatoriamente 14 dígitos!");
+			}
 		}
 
-		if (agencia.getTipoDeDocumentoAgenciaEnum().equals(
-				TipoDeDocumentoDaAgenciaEnum.CPF)
-				&& agencia.getNumeroDocumento().length() != 11) {
-			throw new AgenciaException(
-					"CPF deve ter obrigatoriamente 11 dígitos!");
-		}
-
-		else if (agencia.getTipoDeDocumentoAgenciaEnum().equals(
-				TipoDeDocumentoDaAgenciaEnum.CNPJ)
-				&& agencia.getNumeroDocumento().length() != 14) {
-			throw new AgenciaException(
-					"CPF deve ter obrigatoriamente 14 dígitos!");
+		if (agencia.getRazaoSocial() == null
+				|| agencia.getRazaoSocial().isEmpty()) {
+			if (agencia.getTipoDeDocumentoAgenciaEnum().equals(
+					TipoDeDocumentoDaAgenciaEnum.CPF)) {
+				throw new AgenciaException("Nome é um campo obrigatório!");
+			} else {
+				throw new AgenciaException(
+						"Razão Social é um campo obrigatório!");
+			}
 		}
 
 		if (agencia.getNomeFantasia() == null
@@ -204,36 +201,10 @@ public class AgenciaServiceImpl implements AgenciaService {
 				.equals(agencia.getCodigoPin().getCodigo().toUpperCase())) {
 			throw new CodigoPinDivergenteException("Código PIN não confere!");
 		} else {
-			// this.validarTempoDeExpiracaoDeUmPin(agenciaPesquisada);
+			this.codigoPinService
+					.validarTempoDeExpiracaoDeUmPin(agenciaPesquisada);
 			agenciaPesquisada.setStatusAgencia(StatusAgencia.PENDENTE);
 			this.saveAgencia(agenciaPesquisada);
 		}
 	}
-
-	// private void validarTempoDeExpiracaoDeUmPin(Agencia agenciaPesquisada)
-	// throws CodigoPinExpiradoException {
-	//
-	// Date dataQuePinFoiEnviado = agenciaPesquisada.getCodigoPin()
-	// .getDataQueFoiGerado();
-	// Calendar calendarDoMomentoQueFoiEnviado = Calendar.getInstance();
-	// calendarDoMomentoQueFoiEnviado.setTime(dataQuePinFoiEnviado);
-	//
-	// Calendar calendarAtual = Calendar.getInstance();
-	//
-	// int diferencaEntreAno = calendarDoMomentoQueFoiEnviado
-	// .get(Calendar.YEAR) - calendarAtual.get(Calendar.YEAR);
-	// int diferencaEntreMes = calendarDoMomentoQueFoiEnviado
-	// .get(Calendar.MONTH) - calendarAtual.get(Calendar.MONTH);
-	// int diferencaEntreDias = calendarDoMomentoQueFoiEnviado
-	// .get(Calendar.DAY_OF_MONTH)
-	// - calendarAtual.get(Calendar.DAY_OF_MONTH);
-	//
-	// if (diferencaEntreAno != 0 || diferencaEntreMes != 0
-	// || diferencaEntreDias != 0) {
-	//
-	// throw new CodigoPinExpiradoException(
-	// "Tempo mínimo para emissão de um novo PIN ainda não foi atingido! Tempo mínimo: 1 dia");
-	// }
-	//
-	// }
 }

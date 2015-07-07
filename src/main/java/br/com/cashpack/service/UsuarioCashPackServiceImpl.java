@@ -1,8 +1,5 @@
 package br.com.cashpack.service;
 
-import java.util.Date;
-import java.util.Random;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.cashpack.exception.CashPackException;
@@ -62,7 +59,7 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 					"Esse usuário já está cadastrado e com o PIN validado!");
 		}
 
-		CodigoPIN codigoPin = gerarPinAleatorio();
+		CodigoPIN codigoPin = this.codigoPinService.gerarPinAleatorio();
 		usuarioCashPack.setCodigoPin(codigoPin);
 
 		if (usuarioCashPack.getTelefone() == null) {
@@ -83,30 +80,6 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 		return Usuario.findUsuarioByCodPaisAndCodAreaAndNumero(codPais,
 				codArea, numero);
 
-	}
-
-	private CodigoPIN gerarPinAleatorio() {
-		char[] alfabeto = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K',
-				'L', 'M', 'N', 'P', 'Q', 'R', 'T', 'V', 'W', 'X', 'Y', 'Z',
-				'2', '3', '4', '6', '7', '8', '9' };
-
-		int qtdCaracteresDoPin = 5;
-		String codigo = "";
-		for (int i = 0; i < qtdCaracteresDoPin; i++) {
-			Random gerador = new Random();
-			int numero = gerador.nextInt(alfabeto.length - 1);
-
-			if (numero < 0) {
-				numero = 0;
-			}
-			codigo += alfabeto[numero];
-		}
-		CodigoPIN pin = new CodigoPIN();
-		pin.setCodigo(codigo);
-		pin.setDataQueFoiGerado(new Date());
-		codigoPinService.saveCodigoPIN(pin);
-
-		return pin;
 	}
 
 	@Override
@@ -153,7 +126,7 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 		if (!codigo.toUpperCase().equals(confirmacaoDoPin.toUpperCase())) {
 			throw new CodigoPinDivergenteException("Código PIN não confere!");
 		} else {
-			this.usuarioCashPackValidator
+			this.codigoPinService
 					.validarTempoDeExpiracaoDeUmPin(usuarioCashPack);
 
 			usuarioCashPack.setStatus(StatusUsuarioCashPack.ATIVADO_SEM_CPF);

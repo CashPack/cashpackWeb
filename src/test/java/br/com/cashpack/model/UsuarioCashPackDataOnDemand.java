@@ -56,7 +56,7 @@ public class UsuarioCashPackDataOnDemand {
 		agencia.setRazaoSocial("Razão Social da Agência");
 		agencia.setNomeFantasia("Noma Fantasia da Agência");
 		agencia.setEmail("email@agencia.com");
-		agencia.setNumeroDocumento("005.000.00-00");
+		agencia.setNumeroDocumento("005.000.000-00");
 		agencia.setTipoDeDocumentoAgenciaEnum(TipoDeDocumentoDaAgenciaEnum.CPF);
 		agencia.setTelefone(telefone);
 		agencia.setRamoDeAtividade(ramoDeAtividade);
@@ -92,7 +92,7 @@ public class UsuarioCashPackDataOnDemand {
 		agencia.setRazaoSocial("Razão Social da Agência");
 		agencia.setNomeFantasia("Noma Fantasia da Agência");
 		agencia.setEmail("email@agencia.com");
-		agencia.setNumeroDocumento("005.000.00-00");
+		agencia.setNumeroDocumento("005.000.000-00");
 		agencia.setTipoDeDocumentoAgenciaEnum(TipoDeDocumentoDaAgenciaEnum.CPF);
 		agencia.setTelefone(telefone);
 		agencia.setRamoDeAtividade(ramoDeAtividade);

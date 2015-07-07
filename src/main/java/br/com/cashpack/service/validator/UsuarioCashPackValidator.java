@@ -34,31 +34,4 @@ public class UsuarioCashPackValidator implements CashPackValidator {
 	// }
 	// }
 
-	public void validarTempoDeExpiracaoDeUmPin(UsuarioCashPack usuarioCashPack)
-			throws CodigoPinExpiradoException {
-
-		Date dataQuePinFoiEnviado = usuarioCashPack.getCodigoPin()
-				.getDataQueFoiGerado();
-		Date dataAtual = new Date();
-
-		long diff = dataQuePinFoiEnviado.getTime() - dataAtual.getTime();
-		long diffSeconds = diff / 1000 % 60;
-		long diffMinutes = diff / (60 * 1000) % 60;
-		long diffHours = diff / (60 * 60 * 1000) % 24;
-		long diffDays = diff / (24 * 60 * 60 * 1000);
-
-		boolean ultrapassouTempoDeExpiracao = true;
-		if (diffDays == 0) {
-			if (diffHours >= -1 && diffHours <= 1) {
-				if (diffMinutes <= 15 && diffMinutes > -15) {
-					ultrapassouTempoDeExpiracao = false;
-				}
-			}
-		}
-
-		if (ultrapassouTempoDeExpiracao) {
-			throw new CodigoPinExpiradoException(
-					"PIN expirado! Por favor, cadastre-se novamente e um novo código PIN será enviado!");
-		}
-	}
 }
