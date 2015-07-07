@@ -61,16 +61,9 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 			throw new UsuarioCashPackJaAtivadoException(
 					"Esse usuário já está cadastrado e com o PIN validado!");
 		}
-		this.usuarioCashPackValidator.validate(usuarioCashPack);
 
 		CodigoPIN codigoPin = gerarPinAleatorio();
-		if (usuarioCashPack.getCodigoPin() == null) {
-			usuarioCashPack.setCodigoPin(codigoPin);
-		} else {
-			usuarioCashPack.getCodigoPin().setCodigo(codigoPin.getCodigo());
-			usuarioCashPack.getCodigoPin().setDataQueFoiGerado(
-					codigoPin.getDataQueFoiGerado());
-		}
+		usuarioCashPack.setCodigoPin(codigoPin);
 
 		if (usuarioCashPack.getTelefone() == null) {
 			this.telefoneService.saveTelefone(telefone);
@@ -80,7 +73,6 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 		this.saveUsuarioCashPack(usuarioCashPack);
 
 		this.smsSender.sendPin(usuarioCashPack);
-
 		return usuarioCashPack;
 
 	}
@@ -160,10 +152,8 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 
 		if (!codigo.toUpperCase().equals(confirmacaoDoPin.toUpperCase())) {
 			throw new CodigoPinDivergenteException("Código PIN não confere!");
-		}
-
-		if (codigo.equals(confirmacaoDoPin)) {
-			usuarioCashPackValidator
+		} else {
+			this.usuarioCashPackValidator
 					.validarTempoDeExpiracaoDeUmPin(usuarioCashPack);
 
 			usuarioCashPack.setStatus(StatusUsuarioCashPack.ATIVADO_SEM_CPF);
