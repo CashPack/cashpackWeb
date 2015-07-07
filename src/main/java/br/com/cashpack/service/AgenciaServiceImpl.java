@@ -1,6 +1,5 @@
 package br.com.cashpack.service;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import br.com.cashpack.exception.CashPackException;
 import br.com.cashpack.exception.CodigoPINJaAtivadoException;
 import br.com.cashpack.exception.CodigoPinDivergenteException;
-import br.com.cashpack.exception.CodigoPinEmitidoRecentementeException;
 import br.com.cashpack.model.Agencia;
 import br.com.cashpack.model.CodigoPIN;
 import br.com.cashpack.model.RamoDeAtividade;

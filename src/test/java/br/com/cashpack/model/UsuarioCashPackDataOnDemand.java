@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.roo.addon.dod.RooDataOnDemand;
 
+import com.google.gson.Gson;
+
 @RooDataOnDemand(entity = UsuarioCashPack.class)
 public class UsuarioCashPackDataOnDemand {
 
@@ -22,5 +24,52 @@ public class UsuarioCashPackDataOnDemand {
 
 		Assert.assertEquals("83", area);
 		Assert.assertEquals("988746463", numero);
+	}
+	
+	@Test
+	public void imprimeJsonNoFormatoDeRecebimentoDeUmUsuarioCashPack(){
+		Telefone telefone = new Telefone();
+		telefone.setCodPais("55");
+		telefone.setNumero("(83) 98874 - 6463");
+		
+		UsuarioCashPack usuarioCashPack = new UsuarioCashPack();
+		usuarioCashPack.setTelefone(telefone);
+		
+		Gson gson = new Gson();
+		String json = gson.toJson(usuarioCashPack);
+		System.out.println(json);
+	}
+	
+	@Test
+	public void imprimeJsonNoFormatoDeRecebimentoDeUmaAgencia(){
+		Telefone telefone = new Telefone();
+		telefone.setCodPais("55");
+		telefone.setNumero("(83) 98874 - 6463");
+		
+		RamoDeAtividade ramoDeAtividade = new RamoDeAtividade();
+		ramoDeAtividade.setId(1L);
+		ramoDeAtividade.setNome("Ramo de Atividade da Agência");
+		ramoDeAtividade.setVersion(0);
+		
+		// COM CPF
+		Agencia agencia = new Agencia();
+		agencia.setRazaoSocial("Razão Social da Agência");
+		agencia.setNomeFantasia("Noma Fantasia da Agência");
+		agencia.setEmail("email@agencia.com");
+		agencia.setNumeroDocumento("005.000.00-00");
+		agencia.setTipoDeDocumentoAgenciaEnum(TipoDeDocumentoDaAgenciaEnum.CPF);
+		agencia.setTelefone(telefone);
+		agencia.setRamoDeAtividade(ramoDeAtividade);
+		
+		Gson gson = new Gson();
+		String jsonCPF = gson.toJson(agencia);
+		System.out.println(jsonCPF);
+		
+		// COM CNPJ
+		agencia.setNumeroDocumento("52.836.475/0001-16");
+		agencia.setTipoDeDocumentoAgenciaEnum(TipoDeDocumentoDaAgenciaEnum.CNPJ);
+		
+		String jsonCNPJ = gson.toJson(agencia);
+		System.out.println(jsonCNPJ);
 	}
 }
