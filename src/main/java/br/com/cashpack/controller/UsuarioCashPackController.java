@@ -96,12 +96,10 @@ public class UsuarioCashPackController {
 			if (jsonNode.has("numeroTelefone")) {
 				String numeroTelefone = jsonNode.get("numeroTelefone").asText();
 
-				codArea = (String) numeroTelefone.subSequence(0, 3);
-				codArea = codArea.replace("(", "").replace(")", "")
-						.replace(" ", "");
+				codArea = (String) numeroTelefone.replace(" ", "").subSequence(0, 3);
+				codArea = codArea.replace("(", "").replace(")", "").replace(" ", "");
 
-				numero = numeroTelefone.substring(4).replace("(", "")
-						.replace(")", "").replace("-", "").replace(" ", "");
+				numero = numeroTelefone.replace(" ", "").substring(4).replace("(", "").replace(")", "").replace("-", "");
 			}
 
 			String confirmacaoDoPin = "";
