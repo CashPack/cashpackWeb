@@ -72,4 +72,35 @@ public class UsuarioCashPackDataOnDemand {
 		String jsonCNPJ = gson.toJson(agencia);
 		System.out.println(jsonCNPJ);
 	}
+	
+	@Test
+	public void imprimeJsonNoFormatoDeConfirmacaoDePinDeUmaAgencia(){
+		Telefone telefone = new Telefone();
+		telefone.setCodPais("55");
+		telefone.setNumero("(83) 98874 - 6463");
+		
+		RamoDeAtividade ramoDeAtividade = new RamoDeAtividade();
+		ramoDeAtividade.setId(1L);
+		ramoDeAtividade.setNome("Ramo de Atividade da Agência");
+		ramoDeAtividade.setVersion(0);
+		
+		CodigoPIN codigoPIN = new CodigoPIN();
+		codigoPIN.setCodigo("ASD876");
+
+		// COM CPF
+		Agencia agencia = new Agencia();
+		agencia.setRazaoSocial("Razão Social da Agência");
+		agencia.setNomeFantasia("Noma Fantasia da Agência");
+		agencia.setEmail("email@agencia.com");
+		agencia.setNumeroDocumento("005.000.00-00");
+		agencia.setTipoDeDocumentoAgenciaEnum(TipoDeDocumentoDaAgenciaEnum.CPF);
+		agencia.setTelefone(telefone);
+		agencia.setRamoDeAtividade(ramoDeAtividade);
+		agencia.setCodigoPin(codigoPIN);
+		
+		Gson gson = new Gson();
+		String json = gson.toJson(agencia);
+
+		System.out.println(json);
+	}
 }
