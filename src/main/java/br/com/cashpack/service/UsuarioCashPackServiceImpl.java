@@ -39,22 +39,20 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 		telefone.setNumero(numeroTelefone);
 		this.telefoneValidator.validate(telefone);
 
-		UsuarioCashPack usuarioCashPack;
 		Usuario usuario;
 		try {
 			usuario = this.findUsuarioByTelefone(codTelefonoPais,
 					codTelefonoArea, numeroTelefone);
 		} catch (Exception e) {
-			usuarioCashPack = new UsuarioCashPack();
 			usuario = null;
 		}
 
+		UsuarioCashPack usuarioCashPack = new UsuarioCashPack();
 		if (usuario != null && usuario instanceof UsuarioCashPack) {
 			usuarioCashPack = (UsuarioCashPack) usuario;
-		} else {
-			throw new UsuarioCashPackJaAtivadoException(
-					"O telefone informado está vinculado a um usuário já cadastrado!");
-		}
+		} else if(usuario != null && !(usuario instanceof UsuarioCashPack)){
+			throw new UsuarioCashPackJaAtivadoException("O telefone informado está vinculado a um usuário já cadastrado!");
+		} 
 
 		if (usuarioCashPack.getStatus() != null
 				&& usuarioCashPack.getStatus() != StatusUsuarioCashPack.DESATIVADO) {
