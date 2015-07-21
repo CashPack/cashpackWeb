@@ -14,63 +14,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import br.com.cashpack.exception.CashPackException;
-import br.com.cashpack.model.UsuarioCashPack;
+import br.com.cashpack.model.Usuario;
 import br.com.cashpack.service.UsuarioCashPackService;
 
-@RooWebJson(jsonObject = UsuarioCashPack.class)
+@RooWebJson(jsonObject = Usuario.class)
 @Controller
-@RequestMapping("/usuariocashpacks")
-public class UsuarioCashPackController {
+@RequestMapping("/usuario")
+public class UsuarioController {
 
 	@Autowired
 	private UsuarioCashPackService usuarioCashPackService;
 
-	@RequestMapping(value = "/cadastrarUsuarioCashPack", method = RequestMethod.POST, headers = "Accept=application/json")
-	public ResponseEntity<String> cadastrarUsuarioCashPack(
+	@RequestMapping(value = "/login", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseEntity<String> login(
 			@RequestBody String json) {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json; charset=utf-8");
 
-		JsonNode jsonNode;
-		try {
-			ObjectMapper objectMapper = new ObjectMapper();
-			JsonFactory factory = objectMapper.getJsonFactory();
-			jsonNode = objectMapper.readTree(factory.createJsonParser(json));
-
-			String codPais = "";
-			if (jsonNode.has("codPais")) {
-				codPais = jsonNode.get("codPais").asText();
-			}
-
-			String codArea = "";
-			String numero = "";
-			if (jsonNode.has("numeroTelefone")) {
-				String numeroTelefone = jsonNode.get("numeroTelefone").asText();
-				numero = numeroTelefone;
-				// codArea = (String) numeroTelefone.subSequence(0, 3);
-				// codArea = codArea.replace("(", "").replace(")", "")
-				// .replace(" ", "");
-				//
-				// numero = numeroTelefone.substring(4).replace("(", "")
-				// .replace(")", "").replace("-", "").replace(" ", "");
-			}
-
-			try {
-				usuarioCashPackService.cadastrar(codPais, codArea, numero);
-				return new ResponseEntity<String>(headers, HttpStatus.CREATED);
-			} catch (CashPackException e) {
-				e.printStackTrace();
-
-				return new ResponseEntity<String>("{\"ERROR\": \""
-						+ e.getMessage() + "\"}", headers,
-						HttpStatus.ALREADY_REPORTED);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<String>("{\"ERROR\": \"Json inválido\"}",
-					headers, HttpStatus.PRECONDITION_FAILED);
-		}
+//		try {
+//
+//				return new ResponseEntity<String>(null);
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//
+//			return new ResponseEntity<String>("{\"ERROR\": \"Json inválido\"}", headers, HttpStatus.PRECONDITION_FAILED);
+//		}
+		return null;
 	}
 
 	@RequestMapping(value = "/confirmarPinUsuarioCashPack", method = RequestMethod.POST, headers = "Accept=application/json")
@@ -96,13 +67,10 @@ public class UsuarioCashPackController {
 			if (jsonNode.has("numeroTelefone")) {
 				String numeroTelefone = jsonNode.get("numeroTelefone").asText();
 
-				codArea = (String) numeroTelefone.replace(" ", "").subSequence(
-						0, 3);
-				codArea = codArea.replace("(", "").replace(")", "")
-						.replace(" ", "");
+				codArea = (String) numeroTelefone.replace(" ", "").subSequence(0, 3);
+				codArea = codArea.replace("(", "").replace(")", "").replace(" ", "");
 
-				numero = numeroTelefone.replace(" ", "").substring(4)
-						.replace("(", "").replace(")", "").replace("-", "");
+				numero = numeroTelefone.replace(" ", "").substring(4).replace("(", "").replace(")", "").replace("-", "");
 			}
 
 			String confirmacaoDoPin = "";

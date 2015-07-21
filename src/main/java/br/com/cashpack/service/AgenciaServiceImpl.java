@@ -7,6 +7,7 @@ import br.com.cashpack.exception.CodigoPINJaAtivadoException;
 import br.com.cashpack.exception.CodigoPinDivergenteException;
 import br.com.cashpack.model.Agencia;
 import br.com.cashpack.model.CodigoPIN;
+import br.com.cashpack.model.Gestor;
 import br.com.cashpack.model.RamoDeAtividade;
 import br.com.cashpack.model.StatusAgencia;
 import br.com.cashpack.model.Telefone;
@@ -27,6 +28,9 @@ public class AgenciaServiceImpl implements AgenciaService {
 	@Autowired
 	private CodigoPinService codigoPinService;
 
+	@Autowired
+	private UsuarioService usuarioService;
+
 	@Override
 	public void cadastrar(Agencia agencia) throws CashPackException {
 		validate(agencia);
@@ -37,9 +41,9 @@ public class AgenciaServiceImpl implements AgenciaService {
 		try {
 			Telefone telefone = agencia.getTelefone();
 			this.telefoneValidator.validate(telefone);
-			usuarioComMesmoTelefone = this.findUsuarioByTelefone(
-					telefone.getCodPais(), telefone.getCodArea(),
-					telefone.getNumero());
+			usuarioComMesmoTelefone = this.usuarioService
+					.findUsuarioByTelefone(telefone.getCodPais(),
+							telefone.getCodArea(), telefone.getNumero());
 
 		} catch (Exception e) {
 			agenciaPesquisadaPorTelefone = agencia;
@@ -77,14 +81,6 @@ public class AgenciaServiceImpl implements AgenciaService {
 		agenciaPesquisadaPorTelefone.setStatusAgencia(StatusAgencia.DESATIVADO);
 		this.saveAgencia(agenciaPesquisadaPorTelefone);
 		this.smsSender.sendPin(agenciaPesquisadaPorTelefone);
-	}
-
-	private Usuario findUsuarioByTelefone(String codPais, String codArea,
-			String numero) {
-
-		return Usuario.findUsuarioByCodPaisAndCodAreaAndNumero(codPais,
-				codArea, numero);
-
 	}
 
 	private void validate(Agencia agencia) throws CashPackException {
@@ -156,18 +152,18 @@ public class AgenciaServiceImpl implements AgenciaService {
 			}
 		}
 
-		// if (agencia.getGerente() == null) {
-		// throw new AgenciaException(
-		// "Gerente que está cadastrando a agência é obrigatório!");
-		// } else {
-		// Gerente gerente = Gerente.findGerente(agencia.getGerente().getId());
-		// if (gerente == null) {
-		// throw new AgenciaException(
-		// "O gerente que está cadastrando a agência não está cadastrado no sistema!");
-		// } else {
-		// agencia.setGerente(gerente);
-		// }
-		// }
+		if (agencia.getGestor() == null) {
+			throw new AgenciaException(
+					"Gestor que está cadastrando a agência é obrigatório!");
+		} else {
+			Gestor gestor = Gestor.findGestor(agencia.getGestor().getId());
+			if (gestor == null) {
+				throw new AgenciaException(
+						"O gerente que está cadastrando a agência não está cadastrado no sistema!");
+			} else {
+				agencia.setGestor(gestor);
+			}
+		}
 	}
 
 	@Override
@@ -177,8 +173,9 @@ public class AgenciaServiceImpl implements AgenciaService {
 
 		try {
 			Telefone telefone = agencia.getTelefone();
-			usuario = this.findUsuarioByTelefone(telefone.getCodPais(),
-					telefone.getCodArea(), telefone.getNumero());
+			usuario = this.usuarioService.findUsuarioByTelefone(
+					telefone.getCodPais(), telefone.getCodArea(),
+					telefone.getNumero());
 
 			if (usuario instanceof Agencia) {
 				agenciaPesquisada = (Agencia) usuario;

@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -43,8 +44,11 @@ public class Agencia extends Usuario {
 	private RamoDeAtividade ramoDeAtividade;
 
 	@ManyToOne
-	// @NotNull
-	private Gerente gerente;
+	@NotNull
+	private Gestor gestor;
+	
+	@OneToOne
+	private Credencial credencial;
 
 	public static Agencia findAgenciaByNumeroDocumento(String numeroDocumento) {
 		String sql = "SELECT a FROM Agencia a WHERE a.numeroDocumento =:numeroDocumento";

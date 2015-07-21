@@ -1,6 +1,7 @@
 package br.com.cashpack.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.cashpack.exception.CashPackException;
 import br.com.cashpack.exception.CodigoPinDivergenteException;
@@ -28,7 +29,11 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 
 	@Autowired
 	private CodigoPinService codigoPinService;
+	
+	@Autowired
+	private UsuarioService usuarioService;
 
+	@Transactional
 	public UsuarioCashPack cadastrar(String codTelefonoPais,
 			String codTelefonoArea, String numeroTelefone)
 			throws CashPackException {
@@ -41,7 +46,7 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 
 		Usuario usuario;
 		try {
-			usuario = this.findUsuarioByTelefone(codTelefonoPais,
+			usuario = this.usuarioService.findUsuarioByTelefone(codTelefonoPais,
 					codTelefonoArea, numeroTelefone);
 		} catch (Exception e) {
 			usuario = null;
@@ -75,14 +80,6 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 
 	}
 
-	private Usuario findUsuarioByTelefone(String codPais, String codArea,
-			String numero) {
-
-		return Usuario.findUsuarioByCodPaisAndCodAreaAndNumero(codPais,
-				codArea, numero);
-
-	}
-
 	@Override
 	public void confirmarPin(String codPais, String codArea, String numero,
 			String confirmacaoDoPin) throws CashPackException {
@@ -99,7 +96,7 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 		UsuarioCashPack usuarioCashPack = null;
 		Usuario usuario;
 		try {
-			usuario = this.findUsuarioByTelefone(codPais, codArea, numero);
+			usuario = this.usuarioService.findUsuarioByTelefone(codPais, codArea, numero);
 			if (usuario instanceof UsuarioCashPack) {
 				usuarioCashPack = (UsuarioCashPack) usuario;
 			}

@@ -3,11 +3,11 @@
 
 package br.com.cashpack.model;
 
-import br.com.cashpack.model.Gerente;
-import javax.persistence.Entity;
+import br.com.cashpack.model.Endereco;
+import org.springframework.beans.factory.annotation.Configurable;
 
-privileged aspect Gerente_Roo_Jpa_Entity {
+privileged aspect Endereco_Roo_Configurable {
     
-    declare @type: Gerente: @Entity;
+    declare @type: Endereco: @Configurable;
     
 }

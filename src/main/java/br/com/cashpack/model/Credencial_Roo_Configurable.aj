@@ -3,11 +3,11 @@
 
 package br.com.cashpack.model;
 
-import br.com.cashpack.model.Gerente;
+import br.com.cashpack.model.Credencial;
 import org.springframework.beans.factory.annotation.Configurable;
 
-privileged aspect Gerente_Roo_Configurable {
+privileged aspect Credencial_Roo_Configurable {
     
-    declare @type: Gerente: @Configurable;
+    declare @type: Credencial: @Configurable;
     
 }

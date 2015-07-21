@@ -3,13 +3,13 @@
 
 package br.com.cashpack.model;
 
-import br.com.cashpack.model.Gerente;
+import br.com.cashpack.model.Gestor;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-privileged aspect Gerente_Roo_ToString {
+privileged aspect Gestor_Roo_ToString {
     
-    public String Gerente.toString() {
+    public String Gestor.toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
     

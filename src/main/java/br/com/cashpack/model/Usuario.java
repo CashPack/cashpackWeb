@@ -19,7 +19,7 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooJpaActiveRecord(finders = { "findUsuariosByCodigoPinAndTelefone" })
 public abstract class Usuario {
 
-	/**	
+	/**		
      */
 	@NotNull
 	@OneToOne
@@ -45,4 +45,33 @@ public abstract class Usuario {
 
 		return query.getSingleResult();
 	}
+
+//	@Override
+//	public JsonElement serialize(Usuario src, Type typeOfSrc,
+//			JsonSerializationContext context) {
+//
+//		JsonObject retValue = new JsonObject();
+//		String className = src.getClass().getCanonicalName();
+//		retValue.addProperty("Usuario", className);
+//		JsonElement elem = context.serialize(src);
+//		retValue.add("Instance", elem);
+//		return retValue;
+//	}
+//
+//	@Override
+//	public Usuario deserialize(JsonElement json, Type typeOfT,
+//			JsonDeserializationContext context) throws JsonParseException {
+//		JsonObject jsonObject = json.getAsJsonObject();
+//		JsonPrimitive prim = (JsonPrimitive) jsonObject.get("Usuario");
+//		String className = prim.getAsString();
+//
+//		Class<?> klass = null;
+//		try {
+//			klass = Class.forName(className);
+//		} catch (ClassNotFoundException e) {
+//			e.printStackTrace();
+//			throw new JsonParseException(e.getMessage());
+//		}
+//		return context.deserialize(jsonObject.get("Instance"), klass);
+//	}
 }
