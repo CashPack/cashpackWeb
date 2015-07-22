@@ -1,10 +1,15 @@
 package br.com.cashpack.model;
 
+import java.util.Date;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.roo.addon.dod.RooDataOnDemand;
 
+import br.com.cashpack.model.adapter.UsuarioAdapter;
+
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 @RooDataOnDemand(entity = UsuarioCashPack.class)
 public class UsuarioCashPackDataOnDemand {
@@ -103,4 +108,139 @@ public class UsuarioCashPackDataOnDemand {
 
 		System.out.println(json);
 	}
+	
+	@Test
+		public void imprimeJsonNoFormatoDeCadastroGestor() {
+			Gestor gestor = new Gestor();
+			gestor.setCnpj("12345678901112");
+			gestor.setRazaoSocial("Valor da Razão Social");
+			gestor.setEmail("email@cashpack.com.br");
+	
+			Telefone telefone = new Telefone();
+			telefone.setCodPais("55");
+			telefone.setNumero("988746463");
+			gestor.setTelefone(telefone);
+	
+			Gson gson = new Gson();
+			System.out.println(gson.toJson(gestor));
+		}
+	
+		@Test
+		public void imprimeJsonNoConfirmacaoDePinDeGestor() {
+			CodigoPIN codigoPin = new CodigoPIN();
+			codigoPin.setCodigo("asdfgh");
+	
+			Telefone telefone = new Telefone();
+			telefone.setCodPais("55");
+			telefone.setNumero("988746463");
+	
+			Gestor gestor = new Gestor();
+			gestor.setTelefone(telefone);
+			gestor.setCodigoPin(codigoPin);
+			gestor.setAceitouOsTermosDeContrato(true);
+	
+			Gson gson = new Gson();
+			System.out.println(gson.toJson(gestor));
+		}
+	
+		@Test
+		public void testSerialize() {
+			Gestor gestor = criarGestorValido();
+			Agencia agencia = criarAgenciaValida(gestor);
+	
+			Usuario usuarios[] = new Usuario[] { gestor, agencia };
+	
+			Gson gsonExt = null;
+			{
+				GsonBuilder builder = new GsonBuilder();
+				builder.registerTypeAdapter(Usuario.class, new UsuarioAdapter());
+				gsonExt = builder.create();
+			}
+	
+			for (Usuario usuario : usuarios) {
+				String usuarioJson = gsonExt.toJson(usuario, Usuario.class);
+				System.out.println(usuarioJson + "\n\n");
+				// Usuario usuario2 = gsonExt.fromJson(usuarioJson, Usuario.class);
+				// System.out.println(usuario2);
+			}
+		}
+	
+		private Agencia criarAgenciaValida(Gestor gestor) {
+	
+			Agencia agencia = new Agencia();
+			agencia.setId(1L);
+			agencia.setVersion(1);
+			agencia.setEmail("fernando.dsfw@gmail.com");
+			agencia.setNomeFantasia("Nome fantasia");
+			agencia.setRazaoSocial("Razão Social");
+			agencia.setTipoDeDocumentoAgenciaEnum(TipoDeDocumentoDaAgenciaEnum.CNPJ);
+			agencia.setNumeroDocumento("12345678901112");
+			agencia.setStatusAgencia(StatusAgencia.ATIVADO);
+			agencia.setGestor(gestor);
+	
+			RamoDeAtividade ramoDeAtividade = new RamoDeAtividade();
+			ramoDeAtividade.setId(1L);
+			ramoDeAtividade.setVersion(0);
+			ramoDeAtividade.setNome("Padaria");
+			agencia.setRamoDeAtividade(ramoDeAtividade);
+	
+			Telefone telefone = new Telefone();
+			telefone.setId(1L);
+			telefone.setVersion(0);
+			telefone.setCodPais("55");
+			telefone.setCodArea("83");
+			telefone.setNumero("988746463");
+			agencia.setTelefone(telefone);
+	
+			CodigoPIN codigoPin = new CodigoPIN();
+			codigoPin.setId(1L);
+			codigoPin.setVersion(0);
+			codigoPin.setDataQueFoiGerado(new Date());
+			codigoPin.setCodigo("asdfgh");
+			agencia.setCodigoPin(codigoPin);
+	
+			Credencial credencial = new Credencial();
+			credencial.setId(1L);
+			credencial.setVersion(0);
+			credencial.setLogin("algumLogin");
+			credencial.setSenha("algumaSenha");
+			agencia.setCredencial(credencial);
+			return agencia;
+		}
+	
+		private Gestor criarGestorValido() {
+			Gestor gestor = new Gestor();
+			gestor.setId(1L);
+			gestor.setVersion(0);
+	
+			Telefone telefone = new Telefone();
+			telefone.setId(1L);
+			telefone.setVersion(0);
+			telefone.setCodPais("55");
+			telefone.setCodArea("83");
+			telefone.setNumero("988746463");
+	
+			gestor.setTelefone(telefone);
+			gestor.setNomeFantasia("Mercearia do João");
+			gestor.setRazaoSocial("Fulano de Tal - ME");
+			gestor.setCnpj("12345678901112");
+			gestor.setEmail("fernando.dsfw@gmail.com");
+			gestor.setAceitouOsTermosDeContrato(true);
+			gestor.setStatusGestorEnum(StatusGestorEnum.ATIVADO);
+	
+			CodigoPIN codigoPin = new CodigoPIN();
+			codigoPin.setId(1L);
+			codigoPin.setVersion(0);
+			codigoPin.setDataQueFoiGerado(new Date());
+			codigoPin.setCodigo("asdfgh");
+			gestor.setCodigoPin(codigoPin);
+	
+			Credencial credencial = new Credencial();
+			credencial.setId(1L);
+			credencial.setVersion(0);
+			credencial.setLogin("algumLogin");
+			credencial.setSenha("algumaSenha");
+			gestor.setCredencial(credencial);
+			return gestor;
+		}
 }

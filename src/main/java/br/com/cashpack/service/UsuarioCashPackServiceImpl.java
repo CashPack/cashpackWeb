@@ -29,6 +29,9 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 	@Autowired
 	private CodigoPinService codigoPinService;
 
+	@Autowired
+	private UsuarioService usuarioService;
+
 	public UsuarioCashPack cadastrar(String codTelefonoPais,
 			String codTelefonoArea, String numeroTelefone)
 			throws CashPackException {
@@ -41,8 +44,9 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 
 		Usuario usuario;
 		try {
-			usuario = this.findUsuarioByTelefone(codTelefonoPais,
-					codTelefonoArea, numeroTelefone);
+			usuario = this.usuarioService.findUsuarioByTelefone(
+					telefone.getCodPais(), telefone.getCodArea(),
+					telefone.getNumero());
 		} catch (Exception e) {
 			usuario = null;
 		}
@@ -50,9 +54,10 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 		UsuarioCashPack usuarioCashPack = new UsuarioCashPack();
 		if (usuario != null && usuario instanceof UsuarioCashPack) {
 			usuarioCashPack = (UsuarioCashPack) usuario;
-		} else if(usuario != null && !(usuario instanceof UsuarioCashPack)){
-			throw new UsuarioCashPackJaAtivadoException("O telefone informado está vinculado a um usuário já cadastrado!");
-		} 
+		} else if (usuario != null && !(usuario instanceof UsuarioCashPack)) {
+			throw new UsuarioCashPackJaAtivadoException(
+					"O telefone informado está vinculado a um usuário já cadastrado!");
+		}
 
 		if (usuarioCashPack.getStatus() != null
 				&& usuarioCashPack.getStatus() != StatusUsuarioCashPack.DESATIVADO) {
@@ -75,14 +80,6 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 
 	}
 
-	private Usuario findUsuarioByTelefone(String codPais, String codArea,
-			String numero) {
-
-		return Usuario.findUsuarioByCodPaisAndCodAreaAndNumero(codPais,
-				codArea, numero);
-
-	}
-
 	@Override
 	public void confirmarPin(String codPais, String codArea, String numero,
 			String confirmacaoDoPin) throws CashPackException {
@@ -99,7 +96,9 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 		UsuarioCashPack usuarioCashPack = null;
 		Usuario usuario;
 		try {
-			usuario = this.findUsuarioByTelefone(codPais, codArea, numero);
+			usuario = this.usuarioService.findUsuarioByTelefone(
+					telefone.getCodPais(), telefone.getCodArea(),
+					telefone.getNumero());
 			if (usuario instanceof UsuarioCashPack) {
 				usuarioCashPack = (UsuarioCashPack) usuario;
 			}

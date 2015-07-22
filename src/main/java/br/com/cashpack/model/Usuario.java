@@ -1,5 +1,7 @@
 package br.com.cashpack.model;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -43,6 +45,8 @@ public abstract class Usuario {
 		query.setParameter("codArea", codArea);
 		query.setParameter("numero", numero);
 
-		return query.getSingleResult();
+		List<Usuario> usuarios = query.getResultList();
+		
+		return usuarios.get(0);
 	}
 }

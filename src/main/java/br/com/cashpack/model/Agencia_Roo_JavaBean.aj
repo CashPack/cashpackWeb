@@ -4,7 +4,9 @@
 package br.com.cashpack.model;
 
 import br.com.cashpack.model.Agencia;
-import br.com.cashpack.model.Gerente;
+import br.com.cashpack.model.Credencial;
+import br.com.cashpack.model.Endereco;
+import br.com.cashpack.model.Gestor;
 import br.com.cashpack.model.RamoDeAtividade;
 import br.com.cashpack.model.StatusAgencia;
 import br.com.cashpack.model.TipoDeDocumentoDaAgenciaEnum;
@@ -67,12 +69,28 @@ privileged aspect Agencia_Roo_JavaBean {
         this.ramoDeAtividade = ramoDeAtividade;
     }
     
-    public Gerente Agencia.getGerente() {
-        return this.gerente;
+    public Gestor Agencia.getGestor() {
+        return this.gestor;
     }
     
-    public void Agencia.setGerente(Gerente gerente) {
-        this.gerente = gerente;
+    public void Agencia.setGestor(Gestor gestor) {
+        this.gestor = gestor;
+    }
+    
+    public Endereco Agencia.getEndereco() {
+        return this.endereco;
+    }
+    
+    public void Agencia.setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+    
+    public Credencial Agencia.getCredencial() {
+        return this.credencial;
+    }
+    
+    public void Agencia.setCredencial(Credencial credencial) {
+        this.credencial = credencial;
     }
     
 }

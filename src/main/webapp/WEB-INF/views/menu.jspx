@@ -5,6 +5,7 @@
     <menu:menu id="_menu" z="nZaf43BjUg1iM0v70HJVEsXDopc=">
         <menu:category id="c_controller" z="nj8Dm3hojIyIEyPkwE1UMDIs+K8=">
             <menu:item id="i_controller__usuariocashpackindex_id" messageCode="global_generic" url="/usuarioCashPack/index" z="IIYZlWfs/Lz/qtXgfQSLIk5exx8="/>
+            <menu:item id="i_controller__gestorindex_id" messageCode="global_generic" url="/gestor/index" z="WhAvNsPeFRIBwgqOABvotr1+BCk="/>
         </menu:category>
     </menu:menu>
 </div>

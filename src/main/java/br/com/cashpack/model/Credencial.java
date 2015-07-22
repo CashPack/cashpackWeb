@@ -1,16 +1,24 @@
 package br.com.cashpack.model;
-import javax.validation.constraints.NotNull;
-
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
+import org.springframework.roo.addon.json.RooJson;
 import org.springframework.roo.addon.tostring.RooToString;
+
+import javax.validation.constraints.NotNull;
 
 @RooJavaBean
 @RooToString
 @RooJpaActiveRecord
-public class Gerente extends Usuario {
-	
-	@NotNull
-	private String codigo;
-	
+@RooJson
+public class Credencial {
+
+    /**
+     */
+    @NotNull
+    private String login;
+
+    /**
+     */
+    @NotNull
+    private String senha;
 }

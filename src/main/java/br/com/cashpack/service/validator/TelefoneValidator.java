@@ -3,7 +3,6 @@ package br.com.cashpack.service.validator;
 import br.com.cashpack.exception.CashPackException;
 import br.com.cashpack.exception.TelefoneException;
 import br.com.cashpack.model.Telefone;
-import br.com.cashpack.service.TelefoneService;
 
 public class TelefoneValidator {
 
@@ -20,6 +19,16 @@ public class TelefoneValidator {
 		if (telefone == null) {
 			throw new TelefoneException("Telefone está null");
 		}
+
+		String numeroTelefone = telefone.getNumero();
+		String codArea = (String) numeroTelefone.subSequence(0, 3);
+		codArea = codArea.replace("(", "").replace(")", "").replace(" ", "");
+
+		String numero = numeroTelefone.substring(4).replace("(", "")
+				.replace(")", "").replace("-", "").replace(" ", "");
+		telefone.setCodArea(codArea);
+		telefone.setNumero(numero);
+
 		validateCodPais(telefone.getCodPais());
 		validateCodArea(telefone.getCodArea());
 		validateNumeroTelefone(telefone.getNumero());

@@ -11,15 +11,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import br.com.cashpack.exception.CashPackException;
-import br.com.cashpack.model.Agencia;
+import br.com.cashpack.model.Gestor;
 import br.com.cashpack.service.AgenciaService;
+import br.com.cashpack.service.GestorService;
 
 import com.google.gson.Gson;
 
-@RooWebJson(jsonObject = Agencia.class)
+@RooWebJson(jsonObject = Gestor.class)
 @Controller
-@RequestMapping("/agencia")
-public class AgenciaController {
+@RequestMapping("/gestor")
+public class GestorController {
+
+	@Autowired
+	private GestorService gestorService;
 
 	private HttpHeaders headers;
 
@@ -31,17 +35,15 @@ public class AgenciaController {
 		headers.add("Content-Type", "application/json; charset=utf-8");
 	}
 
-	@RequestMapping(value = "/cadastrarAgencia", method = RequestMethod.POST, headers = "Accept=application/json")
-	public ResponseEntity<String> cadastrarAgencia(@RequestBody String json) {
+	@RequestMapping(value = "/cadastrarGestor", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseEntity<String> cadastrarGestor(@RequestBody String json) {
 		init();
 
 		Gson gson = new Gson();
-		Agencia agencia = gson.fromJson(json, Agencia.class);
-
+		Gestor gestor = gson.fromJson(json, Gestor.class);
 		try {
-			agenciaService.cadastrar(agencia);
+			this.gestorService.cadastrarGestor(gestor);
 			return new ResponseEntity<String>(headers, HttpStatus.CREATED);
-
 		} catch (CashPackException e) {
 			e.printStackTrace();
 
@@ -50,15 +52,14 @@ public class AgenciaController {
 		}
 	}
 
-	@RequestMapping(value = "/confirmarPinAgencia", method = RequestMethod.POST, headers = "Accept=application/json")
-	public ResponseEntity<String> confirmarPinAgencia(@RequestBody String json) {
+	@RequestMapping(value = "/confirmarPinGestor", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseEntity<String> confirmarPinGestor(@RequestBody String json) {
 		init();
 
 		Gson gson = new Gson();
-		Agencia agencia = gson.fromJson(json, Agencia.class);
-
+		Gestor gestor = gson.fromJson(json, Gestor.class);
 		try {
-			agenciaService.confirmarPinAgencia(agencia);
+			gestorService.confirmarPinGestor(gestor);
 			return new ResponseEntity<String>(headers, HttpStatus.CREATED);
 		} catch (CashPackException e) {
 			e.printStackTrace();

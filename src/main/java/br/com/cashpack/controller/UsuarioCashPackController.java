@@ -43,21 +43,13 @@ public class UsuarioCashPackController {
 				codPais = jsonNode.get("codPais").asText();
 			}
 
-			String codArea = "";
 			String numero = "";
 			if (jsonNode.has("numeroTelefone")) {
-				String numeroTelefone = jsonNode.get("numeroTelefone").asText();
-
-				codArea = (String) numeroTelefone.subSequence(0, 3);
-				codArea = codArea.replace("(", "").replace(")", "")
-						.replace(" ", "");
-
-				numero = numeroTelefone.substring(4).replace("(", "")
-						.replace(")", "").replace("-", "").replace(" ", "");
+				numero = jsonNode.get("numeroTelefone").asText();
 			}
 
 			try {
-				usuarioCashPackService.cadastrar(codPais, codArea, numero);
+				usuarioCashPackService.cadastrar(codPais, "", numero);
 				return new ResponseEntity<String>(headers, HttpStatus.CREATED);
 			} catch (CashPackException e) {
 				e.printStackTrace();
@@ -94,12 +86,7 @@ public class UsuarioCashPackController {
 			String codArea = "";
 			String numero = "";
 			if (jsonNode.has("numeroTelefone")) {
-				String numeroTelefone = jsonNode.get("numeroTelefone").asText();
-
-				codArea = (String) numeroTelefone.replace(" ", "").subSequence(0, 3);
-				codArea = codArea.replace("(", "").replace(")", "").replace(" ", "");
-
-				numero = numeroTelefone.replace(" ", "").substring(4).replace("(", "").replace(")", "").replace("-", "");
+				numero = jsonNode.get("numeroTelefone").asText();
 			}
 
 			String confirmacaoDoPin = "";
