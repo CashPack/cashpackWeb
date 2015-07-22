@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import br.com.cashpack.exception.CashPackException;
 import br.com.cashpack.model.CodigoPIN;
 import br.com.cashpack.model.Credencial;
-import br.com.cashpack.model.Endereco;
 import br.com.cashpack.model.Gestor;
 import br.com.cashpack.model.StatusGestorEnum;
 import br.com.cashpack.model.Telefone;
@@ -40,17 +39,26 @@ public class GestorServiceImpl implements GestorService {
 	private CredencialService credencialService;
 
 	public void cadastrarGestor(Gestor gestor) throws CashPackException {
-		this.validate(gestor);
-		this.telefoneService.saveTelefone(gestor.getTelefone());
-		this.enderecoService.saveEndereco(gestor.getEndereco());
-		this.credencialService.saveCredencial(gestor.getCredencial());
+		gestor = this.validate(gestor);
 
 		CodigoPIN codigoPin = this.codigoPinService.gerarPinAleatorio();
 		gestor.setCodigoPin(codigoPin);
-		gestor.setStatusGestorEnum(StatusGestorEnum.DESATIVADO);
-		this.codigoPinService.saveCodigoPIN(codigoPin);
 
-		gestor.persist();
+		if (gestor.getId() == null) {
+			this.telefoneService.saveTelefone(gestor.getTelefone());
+			this.enderecoService.saveEndereco(gestor.getEndereco());
+			this.credencialService.saveCredencial(gestor.getCredencial());
+
+			gestor.setStatusGestorEnum(StatusGestorEnum.DESATIVADO);
+			this.saveGestor(gestor);
+		} else {
+			this.telefoneService.updateTelefone(gestor.getTelefone());
+			this.enderecoService.updateEndereco(gestor.getEndereco());
+			this.credencialService.updateCredencial(gestor.getCredencial());
+			this.codigoPinService.updateCodigoPIN(gestor.getCodigoPin());
+
+			this.updateGestor(gestor);
+		}
 		this.smsSender.sendPin(gestor);
 	}
 
@@ -177,21 +185,29 @@ public class GestorServiceImpl implements GestorService {
 		telefoneValidator.validate(telefone);
 
 		Gestor gestorPesquisado = null;
-		try {
-			Usuario usuario = this.usuarioService.findUsuarioByTelefone(
-					telefone.getCodPais(), telefone.getCodArea(),
-					telefone.getNumero());
-			if (usuario instanceof Gestor) {
-				gestorPesquisado = (Gestor) usuario;
-			}
-		} catch (Exception e) {
+		Usuario usuario = this.usuarioService.findUsuarioByTelefone(
+				telefone.getCodPais(), telefone.getCodArea(),
+				telefone.getNumero());
+		if (usuario == null || !(usuario instanceof Gestor)) {
 			throw new GestorException(
 					"Não existe Gestor cadastrado com o telefone informado!");
+		} else {
+			gestorPesquisado = (Gestor) usuario;
+		}
+
+		if (gestorPesquisado.getStatusGestorEnum().equals(
+				StatusGestorEnum.ATIVADO)) {
+			throw new GestorException("Gestor já ativado!");
 		}
 
 		if (!gestor.getCodigoPin().getCodigo()
 				.equalsIgnoreCase(gestorPesquisado.getCodigoPin().getCodigo())) {
 			throw new GestorException("Código Pin não confere!");
+		} else {
+			gestorPesquisado.setStatusGestorEnum(StatusGestorEnum.ATIVADO);
+			this.updateGestor(gestorPesquisado);
+
+			// Enviar as credenciais por e-mail
 		}
 	}
 }

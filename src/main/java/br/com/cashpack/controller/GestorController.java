@@ -61,7 +61,7 @@ public class GestorController {
 		try {
 			gestorService.confirmarPinGestor(gestor);
 			return new ResponseEntity<String>(headers, HttpStatus.CREATED);
-		} catch (CashPackException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 
 			return new ResponseEntity<String>("{\"ERROR\": \"" + e.getMessage()
