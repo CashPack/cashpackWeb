@@ -13,6 +13,8 @@ public class EnderecoValidator {
 			throw new EnderecoException("Endereço está null!");
 		}
 
+		converterEndereco(endereco);
+
 		if (endereco.getLogradouro() == null
 				|| endereco.getLogradouro().isEmpty()) {
 
@@ -35,6 +37,28 @@ public class EnderecoValidator {
 		validarSiglaUF(endereco);
 
 		validarCEP(endereco);
+
+	}
+
+	private void converterEndereco(Endereco endereco) {
+		String[] stringEndereco = endereco.getLogradouro().split(",");
+		endereco.setLogradouro(stringEndereco[0]);
+
+		String[] numeroEBairro = stringEndereco[1].split("-");
+		if (numeroEBairro.length > 2) {
+			endereco.setNumero(numeroEBairro[0].trim() + "-" + numeroEBairro[1].trim());
+			endereco.setBairro(numeroEBairro[2].trim());
+		} else {
+			endereco.setNumero(numeroEBairro[0].trim());
+			endereco.setBairro(numeroEBairro[1].trim());
+		}
+
+		String[] municipioESiglaUF = stringEndereco[2].split("-");
+		endereco.setMunicipio(municipioESiglaUF[0].trim());
+		endereco.setSiglaUF(municipioESiglaUF[1].toUpperCase().trim());
+
+		endereco.setCep(stringEndereco[3].replace("-", "").trim());
+		endereco.setPais(stringEndereco[4].trim());
 
 	}
 

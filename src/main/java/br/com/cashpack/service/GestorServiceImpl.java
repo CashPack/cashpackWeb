@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import br.com.cashpack.exception.CashPackException;
 import br.com.cashpack.model.CodigoPIN;
 import br.com.cashpack.model.Credencial;
+import br.com.cashpack.model.Endereco;
 import br.com.cashpack.model.Gestor;
 import br.com.cashpack.model.StatusGestorEnum;
 import br.com.cashpack.model.Telefone;
@@ -40,7 +41,6 @@ public class GestorServiceImpl implements GestorService {
 
 	public void cadastrarGestor(Gestor gestor) throws CashPackException {
 		this.validate(gestor);
-
 		this.telefoneService.saveTelefone(gestor.getTelefone());
 		this.enderecoService.saveEndereco(gestor.getEndereco());
 		this.credencialService.saveCredencial(gestor.getCredencial());
@@ -50,7 +50,7 @@ public class GestorServiceImpl implements GestorService {
 		gestor.setStatusGestorEnum(StatusGestorEnum.DESATIVADO);
 		this.codigoPinService.saveCodigoPIN(codigoPin);
 
-		this.saveGestor(gestor);
+		gestor.persist();
 		this.smsSender.sendPin(gestor);
 	}
 

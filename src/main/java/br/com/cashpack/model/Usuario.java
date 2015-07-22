@@ -46,7 +46,10 @@ public abstract class Usuario {
 		query.setParameter("numero", numero);
 
 		List<Usuario> usuarios = query.getResultList();
-		
-		return usuarios.get(0);
+		if(usuarios != null && usuarios.size() > 0){
+			return usuarios.get(0);
+		} else{
+			return null;
+		}
 	}
 }

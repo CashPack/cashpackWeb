@@ -114,12 +114,18 @@ public class UsuarioCashPackDataOnDemand {
 			Gestor gestor = new Gestor();
 			gestor.setCnpj("12345678901112");
 			gestor.setRazaoSocial("Valor da Razão Social");
+			gestor.setNomeFantasia("Raul Glu glu");
 			gestor.setEmail("email@cashpack.com.br");
 	
 			Telefone telefone = new Telefone();
 			telefone.setCodPais("55");
 			telefone.setNumero("988746463");
 			gestor.setTelefone(telefone);
+			
+			Endereco endereco = new Endereco();
+			endereco.setLogradouro("Rua Daura Saraíva, 393-471 - Aeroporto, Bayeux - PB, 58308-130, Brasil");
+//			endereco.setLogradouro("Rua Manoel Inácio dos Santos, 199 - Valentina de Figueiredo, João Pessoa - PB, 58064-190, Brasil");
+			gestor.setEndereco(endereco);
 	
 			Gson gson = new Gson();
 			System.out.println(gson.toJson(gestor));

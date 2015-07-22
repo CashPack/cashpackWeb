@@ -154,3 +154,8 @@ controller class --class ~.model.Gestor
 // Spring Roo 1.3.1.RELEASE [rev f4f5256] log opened at 2015-07-22 09:45:04
 focus --class ~.model.Agencia
 field reference --fieldName credencial --type ~.model.Credencial
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log closed at 2015-07-22 16:14:58
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log opened at 2015-07-22 16:33:36
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log closed at 2015-07-22 16:37:04
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log opened at 2015-07-22 16:37:13
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log closed at 2015-07-22 17:05:33
