@@ -10,4 +10,5 @@ public interface GestorService {
 	void cadastrarGestor(Gestor gestor) throws CashPackException;
 
 	void confirmarPinGestor(Gestor gestor) throws CashPackException;
+	
 }

@@ -1,5 +1,7 @@
 package br.com.cashpack.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.cashpack.exception.CashPackException;
@@ -32,7 +34,7 @@ public class AgenciaServiceImpl implements AgenciaService {
 
 	@Autowired
 	private GestorService gestorService;
-	
+
 	@Override
 	public void cadastrar(Agencia agencia) throws CashPackException {
 		validate(agencia);
@@ -166,7 +168,8 @@ public class AgenciaServiceImpl implements AgenciaService {
 			throw new AgenciaException(
 					"Gestor que está cadastrando a agência é obrigatório!");
 		} else {
-			Gestor gestor = gestorService.findGestor(agencia.getGestor().getId());
+			Gestor gestor = gestorService.findGestor(agencia.getGestor()
+					.getId());
 			if (gestor == null) {
 				throw new AgenciaException(
 						"O gerente que está cadastrando a agência não está cadastrado no sistema!");
@@ -174,7 +177,7 @@ public class AgenciaServiceImpl implements AgenciaService {
 				agencia.setGestor(gestor);
 			}
 		}
-		
+
 		this.enderecoValidator.validate(agencia.getEndereco());
 	}
 
@@ -214,5 +217,10 @@ public class AgenciaServiceImpl implements AgenciaService {
 			agenciaPesquisada.setStatusAgencia(StatusAgencia.PENDENTE);
 			this.saveAgencia(agenciaPesquisada);
 		}
+	}
+
+	@Override
+	public List<Agencia> findAgenciasPorIdDeGestor(Long idGestor) {
+		return Agencia.findAgenciasByGestorId(idGestor);
 	}
 }
