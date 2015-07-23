@@ -1,5 +1,7 @@
 package br.com.cashpack.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.cashpack.exception.CashPackException;
@@ -210,4 +212,21 @@ public class GestorServiceImpl implements GestorService {
 			// Enviar as credenciais por e-mail
 		}
 	}
+
+	@Override
+	public Gestor findGestorByCredencial(Credencial credencial)
+			throws GestorException {
+		if (credencial == null) {
+			throw new GestorException("Credencial está null!");
+		} else if (credencial.getLogin() == null
+				|| credencial.getLogin().isEmpty()) {
+			throw new GestorException("Login está é um campo obrigatório!");
+		} else if (credencial.getSenha() == null
+				|| credencial.getSenha().isEmpty()) {
+			throw new GestorException("Login está é um campo obrigatório!");
+		}
+
+		return Gestor.findGestorByCredencial(credencial);
+	}
+
 }

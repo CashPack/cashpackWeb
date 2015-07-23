@@ -5,6 +5,7 @@ import org.springframework.roo.addon.layers.service.RooService;
 
 import br.com.cashpack.exception.CashPackException;
 import br.com.cashpack.model.Agencia;
+import br.com.cashpack.model.Credencial;
 
 @RooService(domainTypes = { br.com.cashpack.model.Agencia.class })
 public interface AgenciaService {
@@ -14,4 +15,7 @@ public interface AgenciaService {
 	void confirmarPinAgencia(Agencia agencia) throws CashPackException;
 	
 	List<Agencia> findAgenciasByIdDeGestor(Long idGestor);
+
+	Agencia findAgenciaByCredencial(Credencial credencial)
+			throws AgenciaException;
 }

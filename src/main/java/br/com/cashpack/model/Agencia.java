@@ -73,4 +73,21 @@ public class Agencia extends Usuario {
 		query.setParameter("idGestor", idGestor);
 		return query.getResultList();
 	}
+
+	public static Agencia findAgenciaByCredencial(Credencial credencial) {
+		String sqlQuery = "SELECT a From Agencia a WHERE a.credencial.login =:login AND a.credencial.senha =:senha";
+		EntityManager manager = entityManager();
+
+		TypedQuery<Agencia> query = manager
+				.createQuery(sqlQuery, Agencia.class);
+		query.setParameter("login", credencial.getLogin());
+		query.setParameter("senha", credencial.getSenha());
+
+		List<Agencia> agencias = query.getResultList();
+		if (agencias != null && agencias.size() > 0) {
+			return agencias.get(0);
+		} else {
+			return null;
+		}
+	}
 }
