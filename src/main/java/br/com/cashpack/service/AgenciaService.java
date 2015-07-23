@@ -13,5 +13,5 @@ public interface AgenciaService {
 
 	void confirmarPinAgencia(Agencia agencia) throws CashPackException;
 	
-	List<Agencia> findAgenciasPorIdDeGestor(Long idGestor);
+	List<Agencia> findAgenciasByIdDeGestor(Long idGestor);
 }

@@ -220,7 +220,7 @@ public class AgenciaServiceImpl implements AgenciaService {
 	}
 
 	@Override
-	public List<Agencia> findAgenciasPorIdDeGestor(Long idGestor) {
+	public List<Agencia> findAgenciasByIdDeGestor(Long idGestor) {
 		return Agencia.findAgenciasByGestorId(idGestor);
 	}
 }

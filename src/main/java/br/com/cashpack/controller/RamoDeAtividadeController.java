@@ -17,16 +17,19 @@ import br.com.cashpack.model.RamoDeAtividade;
 @RequestMapping("/ramoDeAtividade")
 public class RamoDeAtividadeController {
 
-	 @RequestMapping(headers = "Accept=application/json")
-	    @ResponseBody
-	    public ResponseEntity<String> listJson() {
-	        HttpHeaders headers = new HttpHeaders();
-	        headers.add("Content-Type", "application/json; charset=utf-8");
-	        try {
-	            List<RamoDeAtividade> result = RamoDeAtividade.findAllRamoDeAtividades();
-	            return new ResponseEntity<String>(RamoDeAtividade.toJsonArray(result), headers, HttpStatus.OK);
-	        } catch (Exception e) {
-	            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
-	        }
-	    }
+	@RequestMapping(headers = "Accept=application/json")
+	@ResponseBody
+	public ResponseEntity<String> listJson() {
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", "application/json; charset=utf-8");
+		try {
+			List<RamoDeAtividade> result = RamoDeAtividade
+					.findAllRamoDeAtividades();
+			return new ResponseEntity<String>(
+					RamoDeAtividade.toJsonArray(result), headers, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage()
+					+ "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }
