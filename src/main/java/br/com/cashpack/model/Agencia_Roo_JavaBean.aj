@@ -4,7 +4,6 @@
 package br.com.cashpack.model;
 
 import br.com.cashpack.model.Agencia;
-import br.com.cashpack.model.Credencial;
 import br.com.cashpack.model.Endereco;
 import br.com.cashpack.model.Gestor;
 import br.com.cashpack.model.RamoDeAtividade;
@@ -83,14 +82,6 @@ privileged aspect Agencia_Roo_JavaBean {
     
     public void Agencia.setEndereco(Endereco endereco) {
         this.endereco = endereco;
-    }
-    
-    public Credencial Agencia.getCredencial() {
-        return this.credencial;
-    }
-    
-    public void Agencia.setCredencial(Credencial credencial) {
-        this.credencial = credencial;
     }
     
 }

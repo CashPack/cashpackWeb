@@ -9,7 +9,6 @@ import br.com.cashpack.exception.CodigoPINJaAtivadoException;
 import br.com.cashpack.exception.CodigoPinDivergenteException;
 import br.com.cashpack.model.Agencia;
 import br.com.cashpack.model.CodigoPIN;
-import br.com.cashpack.model.Credencial;
 import br.com.cashpack.model.Gestor;
 import br.com.cashpack.model.RamoDeAtividade;
 import br.com.cashpack.model.StatusAgencia;
@@ -41,16 +40,13 @@ public class AgenciaServiceImpl implements AgenciaService {
 		validate(agencia);
 
 		Agencia agenciaPesquisadaPorTelefone = null;
-		Usuario usuarioComMesmoTelefone = null;
+		Telefone telefone = agencia.getTelefone();
+		this.telefoneValidator.validate(telefone);
+		Usuario usuarioComMesmoTelefone = this.findUsuarioByTelefone(
+				telefone.getCodPais(), telefone.getCodArea(),
+				telefone.getNumero());
 
-		try {
-			Telefone telefone = agencia.getTelefone();
-			this.telefoneValidator.validate(telefone);
-			usuarioComMesmoTelefone = this.findUsuarioByTelefone(
-					telefone.getCodPais(), telefone.getCodArea(),
-					telefone.getNumero());
-
-		} catch (Exception e) {
+		if (usuarioComMesmoTelefone == null) {
 			agenciaPesquisadaPorTelefone = agencia;
 		}
 
@@ -223,22 +219,6 @@ public class AgenciaServiceImpl implements AgenciaService {
 	@Override
 	public List<Agencia> findAgenciasByIdDeGestor(Long idGestor) {
 		return Agencia.findAgenciasByGestorId(idGestor);
-	}
-
-	@Override
-	public Agencia findAgenciaByCredencial(Credencial credencial)
-			throws AgenciaException {
-		if (credencial == null) {
-			throw new AgenciaException("Credencial está null!");
-		} else if (credencial.getLogin() == null
-				|| credencial.getLogin().isEmpty()) {
-			throw new AgenciaException("Login está é um campo obrigatório!");
-		} else if (credencial.getSenha() == null
-				|| credencial.getSenha().isEmpty()) {
-			throw new AgenciaException("Login está é um campo obrigatório!");
-		}
-
-		return Agencia.findAgenciaByCredencial(credencial);
 	}
 
 }

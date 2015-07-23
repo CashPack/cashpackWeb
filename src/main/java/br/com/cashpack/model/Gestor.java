@@ -19,7 +19,7 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooToString
 @RooJpaActiveRecord
 @RooJson
-public class Gestor extends Usuario {
+public class Gestor extends UsuarioAutenticavel {
 
 	@NotNull
 	@Size(min = 14, max = 14)
@@ -38,10 +38,6 @@ public class Gestor extends Usuario {
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private StatusGestorEnum statusGestorEnum;
-
-	@NotNull
-	@ManyToOne
-	private Credencial credencial;
 
 	@NotNull
 	@ManyToOne

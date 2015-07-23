@@ -2,7 +2,7 @@ package br.com.cashpack.model.adapter;
 
 import java.lang.reflect.Type;
 
-import br.com.cashpack.model.Usuario;
+import br.com.cashpack.model.UsuarioAutenticavel;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -13,14 +13,14 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-public class UsuarioAdapter implements JsonSerializer<Usuario>,
-		JsonDeserializer<Usuario> {
+public class UsuarioAutenticavelAdapter implements JsonSerializer<UsuarioAutenticavel>,
+		JsonDeserializer<UsuarioAutenticavel> {
 
 	private static final String CLASSNAME = "CLASSNAME";
 	private static final String INSTANCE = "INSTANCE";
 
 	@Override
-	public Usuario deserialize(JsonElement json, Type typeOfT,
+	public UsuarioAutenticavel deserialize(JsonElement json, Type typeOfT,
 			JsonDeserializationContext context) throws JsonParseException {
 
 		JsonObject jsonObject = json.getAsJsonObject();
@@ -38,7 +38,7 @@ public class UsuarioAdapter implements JsonSerializer<Usuario>,
 	}
 
 	@Override
-	public JsonElement serialize(Usuario src, Type typeOfSrc,
+	public JsonElement serialize(UsuarioAutenticavel src, Type typeOfSrc,
 			JsonSerializationContext context) {
 
 		JsonObject retValue = new JsonObject();
@@ -48,5 +48,4 @@ public class UsuarioAdapter implements JsonSerializer<Usuario>,
 		retValue.add(INSTANCE, elem);
 		return retValue;
 	}
-
 }

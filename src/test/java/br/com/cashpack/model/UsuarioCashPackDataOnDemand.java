@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.roo.addon.dod.RooDataOnDemand;
 
-import br.com.cashpack.model.adapter.UsuarioAdapter;
+import br.com.cashpack.model.adapter.UsuarioAutenticavelAdapter;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -159,7 +159,7 @@ public class UsuarioCashPackDataOnDemand {
 			Gson gsonExt = null;
 			{
 				GsonBuilder builder = new GsonBuilder();
-				builder.registerTypeAdapter(Usuario.class, new UsuarioAdapter());
+				builder.registerTypeAdapter(Usuario.class, new UsuarioAutenticavelAdapter());
 				gsonExt = builder.create();
 			}
 	

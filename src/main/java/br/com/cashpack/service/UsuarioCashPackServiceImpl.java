@@ -42,14 +42,9 @@ public class UsuarioCashPackServiceImpl implements UsuarioCashPackService {
 		telefone.setNumero(numeroTelefone);
 		this.telefoneValidator.validate(telefone);
 
-		Usuario usuario;
-		try {
-			usuario = this.usuarioService.findUsuarioByTelefone(
-					telefone.getCodPais(), telefone.getCodArea(),
-					telefone.getNumero());
-		} catch (Exception e) {
-			usuario = null;
-		}
+		Usuario usuario = this.usuarioService.findUsuarioByTelefone(
+				telefone.getCodPais(), telefone.getCodArea(),
+				telefone.getNumero());
 
 		UsuarioCashPack usuarioCashPack = new UsuarioCashPack();
 		if (usuario != null && usuario instanceof UsuarioCashPack) {

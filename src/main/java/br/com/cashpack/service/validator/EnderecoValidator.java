@@ -40,25 +40,32 @@ public class EnderecoValidator {
 
 	}
 
-	private void converterEndereco(Endereco endereco) {
+	private void converterEndereco(Endereco endereco) throws EnderecoException {
 		String[] stringEndereco = endereco.getLogradouro().split(",");
-		endereco.setLogradouro(stringEndereco[0]);
 
-		String[] numeroEBairro = stringEndereco[1].split("-");
-		if (numeroEBairro.length > 2) {
-			endereco.setNumero(numeroEBairro[0].trim() + "-" + numeroEBairro[1].trim());
-			endereco.setBairro(numeroEBairro[2].trim());
+		if (stringEndereco.length == 5) {
+			endereco.setLogradouro(stringEndereco[0]);
+
+			String[] numeroEBairro = stringEndereco[1].split("-");
+			if (numeroEBairro.length > 2) {
+				endereco.setNumero(numeroEBairro[0].trim() + "-"
+						+ numeroEBairro[1].trim());
+				endereco.setBairro(numeroEBairro[2].trim());
+			} else {
+				endereco.setNumero(numeroEBairro[0].trim());
+				endereco.setBairro(numeroEBairro[1].trim());
+			}
+
+			String[] municipioESiglaUF = stringEndereco[2].split("-");
+			endereco.setMunicipio(municipioESiglaUF[0].trim());
+			endereco.setSiglaUF(municipioESiglaUF[1].toUpperCase().trim());
+
+			endereco.setCep(stringEndereco[3].replace("-", "").trim());
+			endereco.setPais(stringEndereco[4].trim());
 		} else {
-			endereco.setNumero(numeroEBairro[0].trim());
-			endereco.setBairro(numeroEBairro[1].trim());
+			throw new EnderecoException(
+					"Formato de endereço inválido! Verifique a presença de todos os campos obrigatórios: CEP, UF, Município, Bairro e Número");
 		}
-
-		String[] municipioESiglaUF = stringEndereco[2].split("-");
-		endereco.setMunicipio(municipioESiglaUF[0].trim());
-		endereco.setSiglaUF(municipioESiglaUF[1].toUpperCase().trim());
-
-		endereco.setCep(stringEndereco[3].replace("-", "").trim());
-		endereco.setPais(stringEndereco[4].trim());
 
 	}
 

@@ -16,6 +16,4 @@ public interface AgenciaService {
 	
 	List<Agencia> findAgenciasByIdDeGestor(Long idGestor);
 
-	Agencia findAgenciaByCredencial(Credencial credencial)
-			throws AgenciaException;
 }
