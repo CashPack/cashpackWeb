@@ -1,5 +1,6 @@
 package br.com.cashpack.model;
 
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.roo.addon.javabean.RooJavaBean;
@@ -11,10 +12,15 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooToString
 @RooJpaActiveRecord
 @RooJson
-public class UsuarioAdministrador extends UsuarioAutenticavel {
+public class UsuarioAdministrador extends Usuario {
 
 	/**
      */
 	@NotNull
 	private String nome;
+	
+	@NotNull
+	@ManyToOne
+	private Credencial credencial;
+	
 }

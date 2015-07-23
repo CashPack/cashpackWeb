@@ -19,7 +19,7 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooToString
 @RooJpaActiveRecord
 @RooJson
-public class Gestor extends UsuarioAutenticavel {
+public class Gestor extends Usuario {
 
 	@NotNull
 	@Size(min = 14, max = 14)
@@ -42,6 +42,10 @@ public class Gestor extends UsuarioAutenticavel {
 	@NotNull
 	@ManyToOne
 	private Endereco endereco;
+
+	@NotNull
+	@ManyToOne
+	private Credencial credencial;
 
 	public static Gestor findGestorByCredencial(Credencial credencial) {
 		String sqlQuery = "SELECT g From Gestor g WHERE g.credencial.login =:login AND g.credencial.senha =:senha";

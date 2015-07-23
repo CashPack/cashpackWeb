@@ -3,6 +3,7 @@
 
 package br.com.cashpack.model;
 
+import br.com.cashpack.model.Credencial;
 import br.com.cashpack.model.UsuarioAdministrador;
 
 privileged aspect UsuarioAdministrador_Roo_JavaBean {
@@ -13,6 +14,14 @@ privileged aspect UsuarioAdministrador_Roo_JavaBean {
     
     public void UsuarioAdministrador.setNome(String nome) {
         this.nome = nome;
+    }
+    
+    public Credencial UsuarioAdministrador.getCredencial() {
+        return this.credencial;
+    }
+    
+    public void UsuarioAdministrador.setCredencial(Credencial credencial) {
+        this.credencial = credencial;
     }
     
 }

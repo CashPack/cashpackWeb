@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect UsuarioAdministrador_Roo_Jpa_ActiveRecord {
     
-    public static final List<String> UsuarioAdministrador.fieldNames4OrderClauseFilter = java.util.Arrays.asList("nome");
+    public static final List<String> UsuarioAdministrador.fieldNames4OrderClauseFilter = java.util.Arrays.asList("nome", "credencial");
     
     public static long UsuarioAdministrador.countUsuarioAdministradors() {
         return entityManager().createQuery("SELECT COUNT(o) FROM UsuarioAdministrador o", Long.class).getSingleResult();

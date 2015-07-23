@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect Gestor_Roo_Jpa_ActiveRecord {
     
-    public static final List<String> Gestor.fieldNames4OrderClauseFilter = java.util.Arrays.asList("cnpj", "razaoSocial", "nomeFantasia", "email", "aceitouOsTermosDeContrato", "statusGestorEnum", "endereco");
+    public static final List<String> Gestor.fieldNames4OrderClauseFilter = java.util.Arrays.asList("cnpj", "razaoSocial", "nomeFantasia", "email", "aceitouOsTermosDeContrato", "statusGestorEnum", "endereco", "credencial");
     
     public static long Gestor.countGestors() {
         return entityManager().createQuery("SELECT COUNT(o) FROM Gestor o", Long.class).getSingleResult();
