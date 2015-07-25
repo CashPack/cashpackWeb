@@ -218,7 +218,13 @@ public class AgenciaServiceImpl implements AgenciaService {
 
 	@Override
 	public List<Agencia> findAgenciasByIdDeGestor(Long idGestor) {
-		return Agencia.findAgenciasByGestorId(idGestor);
-	}
+		List<Agencia> agencias = Agencia.findAgenciasByGestorId(idGestor);
 
+		for (Agencia agencia : agencias) {
+			agencia.setCredencial(null);
+			agencia.getGestor().setCredencial(null);
+		}
+
+		return agencias;
+	}
 }

@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.roo.addon.web.mvc.controller.json.RooWebJson;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -71,38 +72,43 @@ public class AgenciaController {
 		}
 	}
 
-	// @RequestMapping(value = "/pesquisarAgenciasIdPorDeGestor/{idGestor}}",
-	// method = RequestMethod.GET, headers = "Accept=application/json")
-	// @ResponseBody
-	// public ResponseEntity<String> pesquisarAgenciasPorIdDeGestor(
-	// @PathVariable Long idGestor) {
-	//
-	// HttpHeaders headers = new HttpHeaders();
-	// headers.add("Content-Type", "application/json; charset=utf-8");
-	// try {
-	// List<Agencia> agencias = agenciaService
-	// .findAgenciasByIdDeGestor(idGestor);
-	// if (agencias == null) {
-	// return new ResponseEntity<String>(headers, HttpStatus.NOT_FOUND);
-	// }
-	// return new ResponseEntity<String>(Agencia.toJsonArray(agencias),
-	// headers, HttpStatus.OK);
-	//
-	// } catch (Exception e) {
-	// return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage()
-	// + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
-	// }
-	// }
-
-	@RequestMapping(headers = "Accept=application/json")
+	@RequestMapping(value = "/pesquisarAgenciaPorIdDeGestor/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
 	@ResponseBody
-	public ResponseEntity<String> listJson() {
+	public ResponseEntity<String> pesquisarAgenciaPorIdDeGestor(
+			@PathVariable("idGestor") Long idGestor) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json; charset=utf-8");
 		try {
-			List<Agencia> result = Agencia.findAllAgencias();
-			return new ResponseEntity<String>(Agencia.toJsonArray(result),
-					headers, HttpStatus.OK);
+			List<Agencia> agencias = agenciaService
+					.findAgenciasByIdDeGestor(idGestor);
+			if (agencias == null) {
+				return new ResponseEntity<String>(headers, HttpStatus.NOT_FOUND);
+			}
+
+			Gson gson = new Gson();
+			return new ResponseEntity<String>(gson.toJson(agencias), headers,
+					HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage()
+					+ "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
+	@ResponseBody
+	public ResponseEntity<String> showJson(@PathVariable("id") Long id) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", "application/json; charset=utf-8");
+		try {
+			List<Agencia> agencias = agenciaService
+					.findAgenciasByIdDeGestor(id);
+			if (agencias == null) {
+				return new ResponseEntity<String>(headers, HttpStatus.NOT_FOUND);
+			}
+
+			Gson gson = new Gson();
+			return new ResponseEntity<String>(gson.toJson(agencias), headers,
+					HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage()
 					+ "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
