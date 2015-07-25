@@ -10,11 +10,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.google.gson.Gson;
-
 import br.com.cashpack.model.Credencial;
+import br.com.cashpack.model.Usuario;
 import br.com.cashpack.model.UsuarioCredenciavel;
+import br.com.cashpack.model.adapter.UsuarioCredenciavelAdapter;
 import br.com.cashpack.service.UsuarioCredenciavelService;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 @RooWebJson(jsonObject = UsuarioCredenciavel.class)
 @Controller
@@ -36,8 +39,18 @@ public class UsuarioCredenciavelController {
 			UsuarioCredenciavel usuarioCredenciavel = this.usuarioCredenciavelService
 					.findUsuarioCredenciavelByCredencial(credencial);
 
-			return new ResponseEntity<String>("{\"ERROR\": \"Json inválido\"}",
-					headers, HttpStatus.CREATED);
+			Gson gsonExt = null;
+			{
+				GsonBuilder builder = new GsonBuilder();
+				builder.registerTypeAdapter(UsuarioCredenciavel.class,
+						new UsuarioCredenciavelAdapter());
+				gsonExt = builder.create();
+			}
+			String usuarioJson = gsonExt.toJson(usuarioCredenciavel,
+					UsuarioCredenciavel.class);
+
+			return new ResponseEntity<String>(usuarioJson, headers,
+					HttpStatus.CREATED);
 
 		} catch (Exception e) {
 			return new ResponseEntity<String>("{\"ERROR\": \"" + e.getMessage()
