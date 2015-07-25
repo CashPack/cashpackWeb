@@ -3,7 +3,6 @@
 
 package br.com.cashpack.model;
 
-import br.com.cashpack.model.Credencial;
 import br.com.cashpack.model.Endereco;
 import br.com.cashpack.model.Gestor;
 import br.com.cashpack.model.StatusGestorEnum;
@@ -64,14 +63,6 @@ privileged aspect Gestor_Roo_JavaBean {
     
     public void Gestor.setEndereco(Endereco endereco) {
         this.endereco = endereco;
-    }
-    
-    public Credencial Gestor.getCredencial() {
-        return this.credencial;
-    }
-    
-    public void Gestor.setCredencial(Credencial credencial) {
-        this.credencial = credencial;
     }
     
 }

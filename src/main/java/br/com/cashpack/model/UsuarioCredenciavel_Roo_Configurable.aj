@@ -3,11 +3,11 @@
 
 package br.com.cashpack.model;
 
-import br.com.cashpack.model.UsuarioAdministrador;
+import br.com.cashpack.model.UsuarioCredenciavel;
 import org.springframework.beans.factory.annotation.Configurable;
 
-privileged aspect UsuarioAdministrador_Roo_Configurable {
+privileged aspect UsuarioCredenciavel_Roo_Configurable {
     
-    declare @type: UsuarioAdministrador: @Configurable;
+    declare @type: UsuarioCredenciavel: @Configurable;
     
 }

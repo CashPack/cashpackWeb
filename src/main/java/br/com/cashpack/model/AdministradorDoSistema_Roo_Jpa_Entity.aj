@@ -3,11 +3,11 @@
 
 package br.com.cashpack.model;
 
-import br.com.cashpack.model.UsuarioAdministrador;
+import br.com.cashpack.model.AdministradorDoSistema;
 import javax.persistence.Entity;
 
-privileged aspect UsuarioAdministrador_Roo_Jpa_Entity {
+privileged aspect AdministradorDoSistema_Roo_Jpa_Entity {
     
-    declare @type: UsuarioAdministrador: @Entity;
+    declare @type: AdministradorDoSistema: @Entity;
     
 }

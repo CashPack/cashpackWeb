@@ -3,13 +3,13 @@
 
 package br.com.cashpack.model;
 
-import br.com.cashpack.model.UsuarioAdministrador;
+import br.com.cashpack.model.UsuarioCredenciavel;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-privileged aspect UsuarioAdministrador_Roo_ToString {
+privileged aspect UsuarioCredenciavel_Roo_ToString {
     
-    public String UsuarioAdministrador.toString() {
+    public String UsuarioCredenciavel.toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
     

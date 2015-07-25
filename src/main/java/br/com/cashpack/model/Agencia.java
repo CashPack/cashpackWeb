@@ -19,7 +19,7 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooToString
 @RooJpaActiveRecord
 @RooJson
-public class Agencia extends Usuario{
+public class Agencia extends UsuarioCredenciavel{
 
 	@NotNull
 	private String nomeFantasia;
