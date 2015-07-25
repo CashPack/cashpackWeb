@@ -9,6 +9,7 @@ import br.com.cashpack.exception.CodigoPINJaAtivadoException;
 import br.com.cashpack.exception.CodigoPinDivergenteException;
 import br.com.cashpack.model.Agencia;
 import br.com.cashpack.model.CodigoPIN;
+import br.com.cashpack.model.Credencial;
 import br.com.cashpack.model.Gestor;
 import br.com.cashpack.model.RamoDeAtividade;
 import br.com.cashpack.model.StatusAgencia;
@@ -19,6 +20,8 @@ import br.com.cashpack.service.validator.EnderecoValidator;
 import br.com.cashpack.service.validator.TelefoneValidator;
 
 public class AgenciaServiceImpl implements AgenciaService {
+
+	private static final String SENHA_PADRAO_AGENCIA = "euSouUmaAgenciaCashPack";
 
 	private TelefoneValidator telefoneValidator = new TelefoneValidator();
 	private EnderecoValidator enderecoValidator = new EnderecoValidator();
@@ -35,13 +38,18 @@ public class AgenciaServiceImpl implements AgenciaService {
 	@Autowired
 	private GestorService gestorService;
 
+	@Autowired
+	private CredencialService credencialService;
+
+	@Autowired
+	private EnderecoService enderecoService;
+
 	@Override
 	public void cadastrar(Agencia agencia) throws CashPackException {
 		validate(agencia);
 
 		Agencia agenciaPesquisadaPorTelefone = null;
 		Telefone telefone = agencia.getTelefone();
-		this.telefoneValidator.validate(telefone);
 		Usuario usuarioComMesmoTelefone = this.findUsuarioByTelefone(
 				telefone.getCodPais(), telefone.getCodArea(),
 				telefone.getNumero());
@@ -80,6 +88,31 @@ public class AgenciaServiceImpl implements AgenciaService {
 		agenciaPesquisadaPorTelefone.setCodigoPin(codigoPin);
 
 		agenciaPesquisadaPorTelefone.setStatusAgencia(StatusAgencia.DESATIVADO);
+
+		Credencial credencial = agenciaPesquisadaPorTelefone.getCredencial();
+		if (credencial == null) {
+			credencial = new Credencial();
+			credencial.setLogin(agenciaPesquisadaPorTelefone.getEmail());
+			credencial.setSenha(SENHA_PADRAO_AGENCIA);
+			agenciaPesquisadaPorTelefone.setCredencial(credencial);
+		} else {
+			if (credencial.getLogin() == null
+					|| credencial.getLogin().isEmpty()) {
+
+				credencial.setLogin(agenciaPesquisadaPorTelefone.getEmail());
+			}
+
+			if (credencial.getSenha() == null
+					|| credencial.getSenha().isEmpty()) {
+				credencial.setSenha(SENHA_PADRAO_AGENCIA);
+			}
+		}
+
+		this.credencialService.saveCredencial(credencial);
+		agenciaPesquisadaPorTelefone.setCredencial(credencial);
+		this.enderecoService.saveEndereco(agenciaPesquisadaPorTelefone
+				.getEndereco());
+
 		this.saveAgencia(agenciaPesquisadaPorTelefone);
 		this.smsSender.sendPin(agenciaPesquisadaPorTelefone);
 	}

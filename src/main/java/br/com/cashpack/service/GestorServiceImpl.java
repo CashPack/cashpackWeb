@@ -1,7 +1,5 @@
 package br.com.cashpack.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.cashpack.exception.CashPackException;
