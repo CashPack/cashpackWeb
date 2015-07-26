@@ -3,6 +3,7 @@
 
 package br.com.cashpack.model;
 
+import br.com.cashpack.model.ClassificacaoEnum;
 import br.com.cashpack.model.Endereco;
 import br.com.cashpack.model.Gestor;
 import br.com.cashpack.model.StatusGestorEnum;
@@ -63,6 +64,14 @@ privileged aspect Gestor_Roo_JavaBean {
     
     public void Gestor.setEndereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+    
+    public ClassificacaoEnum Gestor.getClassificacaoEnum() {
+        return this.classificacaoEnum;
+    }
+    
+    public void Gestor.setClassificacaoEnum(ClassificacaoEnum classificacaoEnum) {
+        this.classificacaoEnum = classificacaoEnum;
     }
     
 }

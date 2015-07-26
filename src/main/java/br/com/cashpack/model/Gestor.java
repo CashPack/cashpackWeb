@@ -42,6 +42,10 @@ public class Gestor extends UsuarioCredenciavel {
 	@NotNull
 	@ManyToOne
 	private Endereco endereco;
+	
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	private ClassificacaoEnum classificacaoEnum;
 
 	public static Gestor findGestorByCredencial(Credencial credencial) {
 		String sqlQuery = "SELECT g From Gestor g WHERE g.credencial.login =:login AND g.credencial.senha =:senha";

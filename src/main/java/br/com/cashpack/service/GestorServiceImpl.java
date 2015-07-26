@@ -3,6 +3,7 @@ package br.com.cashpack.service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.cashpack.exception.CashPackException;
+import br.com.cashpack.model.ClassificacaoEnum;
 import br.com.cashpack.model.CodigoPIN;
 import br.com.cashpack.model.Credencial;
 import br.com.cashpack.model.Gestor;
@@ -66,8 +67,13 @@ public class GestorServiceImpl implements GestorService {
 		this.validarCamposObrigatorios(gestor);
 		gestor = validarNaoExistenciaDeUsuarioJaCadastradoComMesmoTelefone(gestor);
 		this.validarUsuarioCadastradoEAtivado(gestor);
+		this.validarClassificacaoGestor(gestor);
 
 		return gestor;
+	}
+
+	private void validarClassificacaoGestor(Gestor gestor) {
+		gestor.setClassificacaoEnum(ClassificacaoEnum.BRONZE);
 	}
 
 	private void validarCamposObrigatorios(Gestor gestor)
