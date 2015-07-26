@@ -218,6 +218,7 @@ public class AgenciaServiceImpl implements AgenciaService {
 
 		try {
 			Telefone telefone = agencia.getTelefone();
+			telefoneValidator.validate(telefone);
 			usuario = this.findUsuarioByTelefone(telefone.getCodPais(),
 					telefone.getCodArea(), telefone.getNumero());
 
