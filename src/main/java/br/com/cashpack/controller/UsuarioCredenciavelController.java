@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import br.com.cashpack.model.Credencial;
-import br.com.cashpack.model.Usuario;
 import br.com.cashpack.model.UsuarioCredenciavel;
 import br.com.cashpack.model.adapter.UsuarioCredenciavelAdapter;
 import br.com.cashpack.service.UsuarioCredenciavelService;
